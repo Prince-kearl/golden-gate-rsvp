@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Lock, ArrowLeft, Mail, KeyRound } from "lucide-react";
+import { Lock, ArrowLeft, Mail, KeyRound, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -19,6 +19,28 @@ function AdminLogin() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  const friendlyError = (raw: string): string => {
+    const m = raw.toLowerCase();
+    if (m.includes("invalid login credentials")) return "Incorrect email or password. Please double-check and try again.";
+    if (m.includes("email not confirmed")) return "Please confirm your email address before signing in.";
+    if (m.includes("user already registered")) return "An account with this email already exists. Try signing in instead.";
+    if (m.includes("password should be") || m.includes("weak password")) return "Password is too weak. Use at least 6 characters.";
+    if (m.includes("rate limit") || m.includes("too many")) return "Too many attempts. Please wait a moment and try again.";
+    if (m.includes("network") || m.includes("fetch")) return "Network error. Check your connection and try again.";
+    return raw;
+  };
+
+  const checkAdminAccess = async (userId: string): Promise<boolean> => {
+    const { data, error } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userId)
+      .eq("role", "admin");
+    if (error) return false;
+    return !!data && data.length > 0;
+  };
 
   useEffect(() => {
     const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
@@ -33,6 +55,7 @@ function AdminLogin() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setErrorMsg(null);
     try {
       if (mode === "signup") {
         const { error } = await supabase.auth.signUp({
@@ -44,10 +67,22 @@ function AdminLogin() {
       } else {
         const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        if (data.session) navigate({ to: "/admin/dashboard" });
+        if (!data.session) throw new Error("Sign in failed. Please try again.");
+
+        const isAdmin = await checkAdminAccess(data.session.user.id);
+        if (!isAdmin) {
+          await supabase.auth.signOut();
+          setErrorMsg("This account doesn't have admin access. Please contact the event owner to be granted permission.");
+          toast.error("Admin access required");
+          return;
+        }
+        navigate({ to: "/admin/dashboard" });
       }
     } catch (err: unknown) {
-      toast.error(err instanceof Error ? err.message : "Authentication failed");
+      const raw = err instanceof Error ? err.message : "Authentication failed";
+      const friendly = friendlyError(raw);
+      setErrorMsg(friendly);
+      toast.error(friendly);
     } finally { setLoading(false); }
   };
 
@@ -72,6 +107,12 @@ function AdminLogin() {
             <p className="text-sm text-muted-foreground mt-2">Charles Osam's Birthday RSVP</p>
           </div>
           <form onSubmit={handleSubmit} className="rounded-3xl bg-gradient-surface ring-border p-7 space-y-5 shadow-card animate-fade-up delay-100">
+            {errorMsg && (
+              <div role="alert" className="flex items-start gap-3 rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive animate-fade-up">
+                <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+                <span className="leading-relaxed">{errorMsg}</span>
+              </div>
+            )}
             <div className="space-y-2">
               <Label htmlFor="email" className="text-xs uppercase tracking-widest text-muted-foreground">Email</Label>
               <div className="relative">
@@ -89,7 +130,7 @@ function AdminLogin() {
             <Button type="submit" disabled={loading} className="w-full bg-gradient-gold text-primary-foreground hover:opacity-90 shadow-gold h-11 rounded-xl font-medium">
               {loading ? "Please wait..." : mode === "signin" ? "Sign In" : "Create Account"}
             </Button>
-            <button type="button" onClick={() => setMode(mode === "signin" ? "signup" : "signin")} className="block w-full text-center text-xs text-muted-foreground hover:text-gold transition-colors">
+            <button type="button" onClick={() => { setMode(mode === "signin" ? "signup" : "signin"); setErrorMsg(null); }} className="block w-full text-center text-xs text-muted-foreground hover:text-gold transition-colors">
               {mode === "signin" ? "Need an account? Sign up" : "Have an account? Sign in"}
             </button>
           </form>
