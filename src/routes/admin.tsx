@@ -81,12 +81,13 @@ function AdminLogin() {
       } else {
         const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        if (!data.session) throw new Error("Sign in failed. Please try again.");
+        if (!data.session) throw new Error("Sign in returned no session. Please try again.");
 
-        const isAdmin = await checkAdminAccess(data.session.user.id);
-        if (!isAdmin) {
+        const result = await checkAdminAccess(data.session.user.id);
+        if (!result.ok) {
           await supabase.auth.signOut();
-          setErrorMsg("This account doesn't have admin access. Please contact the event owner to be granted permission.");
+          const detail = result.error ?? "Unknown role error";
+          setErrorMsg(`Admin access denied — ${detail}`);
           toast.error("Admin access required");
           return;
         }
@@ -96,7 +97,8 @@ function AdminLogin() {
     } catch (err: unknown) {
       const raw = err instanceof Error ? err.message : "Authentication failed";
       const friendly = friendlyError(raw);
-      setErrorMsg(friendly);
+      // Show both user-friendly and raw detail (without secrets) so issues can be diagnosed.
+      setErrorMsg(friendly === raw ? raw : `${friendly} — ${raw}`);
       toast.error(friendly);
     } finally { setLoading(false); }
   };
