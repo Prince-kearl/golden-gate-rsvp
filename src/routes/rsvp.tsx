@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
-import { ArrowLeft, Check, X, HelpCircle, Sparkles, User, Phone, MessageSquare } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowLeft, Check, X, HelpCircle, Sparkles, User, Phone, MessageSquare, Clock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -34,9 +34,24 @@ const options = [
   { v: "no", label: "Not attending", icon: X, accent: "text-destructive" },
 ] as const;
 
+function useCountdown(target: Date) {
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const i = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(i);
+  }, []);
+  const diff = Math.max(0, target.getTime() - now);
+  const days = Math.floor(diff / 86400000);
+  const hours = Math.floor((diff % 86400000) / 3600000);
+  const minutes = Math.floor((diff % 3600000) / 60000);
+  const seconds = Math.floor((diff % 60000) / 1000);
+  return { days, hours, minutes, seconds, expired: diff === 0 };
+}
+
 function RsvpPage() {
   const navigate = useNavigate();
-  const isClosed = new Date() > RSVP_DEADLINE;
+  const countdown = useCountdown(RSVP_DEADLINE);
+  const isClosed = countdown.expired;
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({ name: "", phone: "", attendance: "yes" as "yes" | "no" | "maybe", message: "" });
 
@@ -83,10 +98,34 @@ function RsvpPage() {
           <p className="text-sm text-muted-foreground">Saturday, May 16 · 8:00 PM · Casa 1715</p>
         </div>
 
+        {!isClosed && (
+          <div className="mb-8 rounded-2xl bg-gradient-surface ring-border p-5 animate-fade-up delay-75">
+            <div className="flex items-center justify-center gap-2 text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-4">
+              <Clock className="w-3 h-3 text-gold" /> RSVP closes in
+            </div>
+            <div className="grid grid-cols-4 gap-2 md:gap-3">
+              {[
+                { v: countdown.days, l: "Days" },
+                { v: countdown.hours, l: "Hours" },
+                { v: countdown.minutes, l: "Min" },
+                { v: countdown.seconds, l: "Sec" },
+              ].map((u) => (
+                <div key={u.l} className="rounded-xl bg-surface-elevated/60 py-3 text-center">
+                  <p className="font-display text-2xl md:text-3xl text-gold tabular-nums">{String(u.v).padStart(2, "0")}</p>
+                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground mt-1">{u.l}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {isClosed ? (
-          <div className="rounded-3xl bg-surface ring-border p-10 text-center">
+          <div className="rounded-3xl bg-gradient-surface ring-border p-10 text-center shadow-card animate-fade-up">
+            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gold/10 text-gold mb-4">
+              <Clock className="w-6 h-6" />
+            </div>
             <h3 className="font-display text-2xl text-gold mb-2">RSVP is now closed</h3>
-            <p className="text-sm text-muted-foreground">The deadline of May 12, 2026 has passed.</p>
+            <p className="text-sm text-muted-foreground">The deadline of May 12, 2026 has passed. Please contact the host directly.</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="rounded-3xl bg-gradient-surface ring-border p-6 md:p-8 space-y-6 shadow-card animate-fade-up delay-100">

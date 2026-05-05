@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import {
   Search, Download, LogOut, Users, Check, X, HelpCircle, ShieldAlert,
-  LayoutDashboard, UsersRound, FileDown, Sparkles, ArrowUpRight,
+  LayoutDashboard, UsersRound, FileDown, Sparkles, ArrowUpRight, ShieldCheck, Trash2, Plus,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
@@ -26,7 +26,9 @@ type Rsvp = {
   created_at: string;
 };
 
-type View = "overview" | "guests";
+type View = "overview" | "guests" | "admins";
+
+type AdminRow = { id: string; user_id: string; email: string };
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -37,6 +39,9 @@ function Dashboard() {
   const [view, setView] = useState<View>("overview");
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
   const [userEmail, setUserEmail] = useState<string>("");
+  const [admins, setAdmins] = useState<AdminRow[]>([]);
+  const [newAdminEmail, setNewAdminEmail] = useState("");
+  const [addingAdmin, setAddingAdmin] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -53,6 +58,7 @@ function Dashboard() {
 
       const { data, error } = await supabase.from("rsvps").select("*").order("created_at", { ascending: false });
       if (error) toast.error(error.message); else setRsvps(data || []);
+      await loadAdmins();
       setLoading(false);
     };
     init();
@@ -90,6 +96,42 @@ function Dashboard() {
   const toggleCheckIn = async (id: string, checked: boolean) => {
     const { error } = await supabase.from("rsvps").update({ checked_in: checked }).eq("id", id);
     if (error) toast.error(error.message);
+  };
+
+  const loadAdmins = async () => {
+    const { data, error } = await supabase.rpc("list_admins");
+    if (error) { toast.error(error.message); return; }
+    setAdmins((data || []).map((r: { user_id: string; email: string }) => ({ id: r.user_id, user_id: r.user_id, email: r.email })));
+  };
+
+  const addAdmin = async () => {
+    const email = newAdminEmail.trim().toLowerCase();
+    if (!email) return;
+    setAddingAdmin(true);
+    try {
+      const { data: uid, error: e1 } = await supabase.rpc("get_user_id_by_email", { _email: email });
+      if (e1) throw e1;
+      if (!uid) { toast.error("No user with that email. They must sign up first."); return; }
+      const { error: e2 } = await supabase.from("user_roles").insert({ user_id: uid, role: "admin" });
+      if (e2) {
+        if (e2.code === "23505") toast.info("User is already an admin.");
+        else throw e2;
+      } else {
+        toast.success(`${email} is now an admin.`);
+      }
+      setNewAdminEmail("");
+      await loadAdmins();
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Failed to add admin");
+    } finally { setAddingAdmin(false); }
+  };
+
+  const removeAdmin = async (uid: string, email: string) => {
+    if (!confirm(`Revoke admin access for ${email}?`)) return;
+    const { error } = await supabase.from("user_roles").delete().eq("user_id", uid).eq("role", "admin");
+    if (error) { toast.error(error.message); return; }
+    toast.success("Admin access revoked.");
+    await loadAdmins();
   };
 
   const exportCsv = () => {
@@ -130,6 +172,7 @@ function Dashboard() {
   const navItems = [
     { id: "overview" as const, label: "Overview", icon: LayoutDashboard },
     { id: "guests" as const, label: "Guests", icon: UsersRound },
+    { id: "admins" as const, label: "Admins", icon: ShieldCheck },
   ];
 
   return (
@@ -194,9 +237,9 @@ function Dashboard() {
         <main className="flex-1 min-w-0">
           <header className="px-6 lg:px-10 py-6 flex items-center justify-between border-b border-border/50">
             <div>
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">{view === "overview" ? "Dashboard" : "Guests"}</p>
+              <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">{view === "overview" ? "Dashboard" : view === "guests" ? "Guests" : "Admins"}</p>
               <h1 className="font-display text-2xl md:text-3xl">
-                {view === "overview" ? "RSVP Overview" : "Guest List"}
+                {view === "overview" ? "RSVP Overview" : view === "guests" ? "Guest List" : "Admin Access"}
               </h1>
             </div>
             <div className="flex items-center gap-2">
@@ -358,6 +401,58 @@ function Dashboard() {
                   </div>
                 </div>
               </>
+            )}
+
+            {view === "admins" && (
+              <div className="max-w-2xl space-y-6">
+                <div className="rounded-2xl bg-gradient-surface ring-border p-6">
+                  <h2 className="font-display text-xl mb-1">Grant admin access</h2>
+                  <p className="text-xs text-muted-foreground mb-5">The user must already have signed up at <code className="text-gold">/admin</code> with this email.</p>
+                  <form onSubmit={(e) => { e.preventDefault(); addAdmin(); }} className="flex flex-col sm:flex-row gap-2">
+                    <Input
+                      type="email"
+                      value={newAdminEmail}
+                      onChange={(e) => setNewAdminEmail(e.target.value)}
+                      placeholder="user@example.com"
+                      className="flex-1 h-11 bg-surface-elevated border-border/60 rounded-xl"
+                      required
+                    />
+                    <Button type="submit" disabled={addingAdmin} className="bg-gradient-gold text-primary-foreground hover:opacity-90 shadow-gold h-11 rounded-xl">
+                      <Plus className="w-4 h-4 mr-2" />{addingAdmin ? "Adding..." : "Add Admin"}
+                    </Button>
+                  </form>
+                </div>
+
+                <div className="rounded-2xl bg-gradient-surface ring-border overflow-hidden">
+                  <div className="px-6 py-5 border-b border-border/50">
+                    <h2 className="font-display text-xl">Current admins ({admins.length})</h2>
+                  </div>
+                  <div className="divide-y divide-border/30">
+                    {admins.length === 0 && <p className="text-sm text-muted-foreground text-center py-10">No admins yet.</p>}
+                    {admins.map((a) => (
+                      <div key={a.user_id} className="flex items-center justify-between px-6 py-4">
+                        <div className="flex items-center gap-3 min-w-0">
+                          <div className="w-9 h-9 rounded-full bg-gold/10 text-gold flex items-center justify-center shrink-0">
+                            <ShieldCheck className="w-4 h-4" />
+                          </div>
+                          <div className="min-w-0">
+                            <p className="text-sm font-medium truncate">{a.email}</p>
+                            <p className="text-[11px] text-muted-foreground">Admin</p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => removeAdmin(a.user_id, a.email)}
+                          disabled={a.email === userEmail}
+                          className="p-2 rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition disabled:opacity-30 disabled:cursor-not-allowed"
+                          title={a.email === userEmail ? "You can't remove yourself" : "Revoke admin"}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             )}
           </div>
         </main>
