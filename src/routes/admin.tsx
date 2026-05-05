@@ -19,6 +19,28 @@ function AdminLogin() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  const friendlyError = (raw: string): string => {
+    const m = raw.toLowerCase();
+    if (m.includes("invalid login credentials")) return "Incorrect email or password. Please double-check and try again.";
+    if (m.includes("email not confirmed")) return "Please confirm your email address before signing in.";
+    if (m.includes("user already registered")) return "An account with this email already exists. Try signing in instead.";
+    if (m.includes("password should be") || m.includes("weak password")) return "Password is too weak. Use at least 6 characters.";
+    if (m.includes("rate limit") || m.includes("too many")) return "Too many attempts. Please wait a moment and try again.";
+    if (m.includes("network") || m.includes("fetch")) return "Network error. Check your connection and try again.";
+    return raw;
+  };
+
+  const checkAdminAccess = async (userId: string): Promise<boolean> => {
+    const { data, error } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userId)
+      .eq("role", "admin");
+    if (error) return false;
+    return !!data && data.length > 0;
+  };
 
   useEffect(() => {
     const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
@@ -33,6 +55,7 @@ function AdminLogin() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setErrorMsg(null);
     try {
       if (mode === "signup") {
         const { error } = await supabase.auth.signUp({
@@ -44,10 +67,22 @@ function AdminLogin() {
       } else {
         const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        if (data.session) navigate({ to: "/admin/dashboard" });
+        if (!data.session) throw new Error("Sign in failed. Please try again.");
+
+        const isAdmin = await checkAdminAccess(data.session.user.id);
+        if (!isAdmin) {
+          await supabase.auth.signOut();
+          setErrorMsg("This account doesn't have admin access. Please contact the event owner to be granted permission.");
+          toast.error("Admin access required");
+          return;
+        }
+        navigate({ to: "/admin/dashboard" });
       }
     } catch (err: unknown) {
-      toast.error(err instanceof Error ? err.message : "Authentication failed");
+      const raw = err instanceof Error ? err.message : "Authentication failed";
+      const friendly = friendlyError(raw);
+      setErrorMsg(friendly);
+      toast.error(friendly);
     } finally { setLoading(false); }
   };
 
