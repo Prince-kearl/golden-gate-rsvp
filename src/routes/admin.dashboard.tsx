@@ -402,6 +402,58 @@ function Dashboard() {
                 </div>
               </>
             )}
+
+            {view === "admins" && (
+              <div className="max-w-2xl space-y-6">
+                <div className="rounded-2xl bg-gradient-surface ring-border p-6">
+                  <h2 className="font-display text-xl mb-1">Grant admin access</h2>
+                  <p className="text-xs text-muted-foreground mb-5">The user must already have signed up at <code className="text-gold">/admin</code> with this email.</p>
+                  <form onSubmit={(e) => { e.preventDefault(); addAdmin(); }} className="flex flex-col sm:flex-row gap-2">
+                    <Input
+                      type="email"
+                      value={newAdminEmail}
+                      onChange={(e) => setNewAdminEmail(e.target.value)}
+                      placeholder="user@example.com"
+                      className="flex-1 h-11 bg-surface-elevated border-border/60 rounded-xl"
+                      required
+                    />
+                    <Button type="submit" disabled={addingAdmin} className="bg-gradient-gold text-primary-foreground hover:opacity-90 shadow-gold h-11 rounded-xl">
+                      <Plus className="w-4 h-4 mr-2" />{addingAdmin ? "Adding..." : "Add Admin"}
+                    </Button>
+                  </form>
+                </div>
+
+                <div className="rounded-2xl bg-gradient-surface ring-border overflow-hidden">
+                  <div className="px-6 py-5 border-b border-border/50">
+                    <h2 className="font-display text-xl">Current admins ({admins.length})</h2>
+                  </div>
+                  <div className="divide-y divide-border/30">
+                    {admins.length === 0 && <p className="text-sm text-muted-foreground text-center py-10">No admins yet.</p>}
+                    {admins.map((a) => (
+                      <div key={a.user_id} className="flex items-center justify-between px-6 py-4">
+                        <div className="flex items-center gap-3 min-w-0">
+                          <div className="w-9 h-9 rounded-full bg-gold/10 text-gold flex items-center justify-center shrink-0">
+                            <ShieldCheck className="w-4 h-4" />
+                          </div>
+                          <div className="min-w-0">
+                            <p className="text-sm font-medium truncate">{a.email}</p>
+                            <p className="text-[11px] text-muted-foreground">Admin</p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => removeAdmin(a.user_id, a.email)}
+                          disabled={a.email === userEmail}
+                          className="p-2 rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition disabled:opacity-30 disabled:cursor-not-allowed"
+                          title={a.email === userEmail ? "You can't remove yourself" : "Revoke admin"}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </main>
       </div>
