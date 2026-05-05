@@ -8,7 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter,
 } from "@/components/ui/dialog";
-import { Lock, ArrowLeft, Mail, KeyRound, AlertCircle, CheckCircle2 } from "lucide-react";
+import { Lock, ArrowLeft, Mail, KeyRound, AlertCircle, CheckCircle2, Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import { markRemember, enforceRememberPolicy } from "@/lib/auth-remember";
