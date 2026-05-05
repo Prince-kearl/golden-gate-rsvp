@@ -45,11 +45,12 @@ function AdminLogin() {
     return raw;
   };
 
-  const checkAdminAccess = async (userId: string): Promise<boolean> => {
+  const checkAdminAccess = async (userId: string): Promise<{ ok: boolean; error?: string }> => {
     const { data, error } = await supabase
       .from("user_roles").select("role").eq("user_id", userId).eq("role", "admin");
-    if (error) return false;
-    return !!data && data.length > 0;
+    if (error) return { ok: false, error: `Role check failed: ${error.message}${error.code ? ` (code: ${error.code})` : ""}` };
+    if (!data || data.length === 0) return { ok: false, error: "No admin role found for this account in user_roles." };
+    return { ok: true };
   };
 
   useEffect(() => {
