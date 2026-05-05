@@ -16,7 +16,7 @@ export const Route = createFileRoute("/")({
 
 function Landing() {
   return (
-    <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
+    <div className="min-h-screen text-foreground relative overflow-hidden" style={{ background: "linear-gradient(135deg, oklch(0.08 0 0) 0%, oklch(0.22 0 0) 50%, oklch(0.05 0 0) 100%)" }}>
       {/* Ambient backdrop */}
       <div className="absolute inset-0 bg-spot pointer-events-none" />
       <MotionBackground />
