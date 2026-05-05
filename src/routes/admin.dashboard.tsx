@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import {
   Search, Download, LogOut, Users, Check, X, HelpCircle, ShieldAlert,
-  LayoutDashboard, UsersRound, FileDown, Sparkles, ArrowUpRight,
+  LayoutDashboard, UsersRound, FileDown, Sparkles, ArrowUpRight, ShieldCheck, Trash2, Plus,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
