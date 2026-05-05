@@ -107,6 +107,12 @@ function AdminLogin() {
             <p className="text-sm text-muted-foreground mt-2">Charles Osam's Birthday RSVP</p>
           </div>
           <form onSubmit={handleSubmit} className="rounded-3xl bg-gradient-surface ring-border p-7 space-y-5 shadow-card animate-fade-up delay-100">
+            {errorMsg && (
+              <div role="alert" className="flex items-start gap-3 rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive animate-fade-up">
+                <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+                <span className="leading-relaxed">{errorMsg}</span>
+              </div>
+            )}
             <div className="space-y-2">
               <Label htmlFor="email" className="text-xs uppercase tracking-widest text-muted-foreground">Email</Label>
               <div className="relative">
