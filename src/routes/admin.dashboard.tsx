@@ -39,6 +39,9 @@ function Dashboard() {
   const [view, setView] = useState<View>("overview");
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
   const [userEmail, setUserEmail] = useState<string>("");
+  const [admins, setAdmins] = useState<AdminRow[]>([]);
+  const [newAdminEmail, setNewAdminEmail] = useState("");
+  const [addingAdmin, setAddingAdmin] = useState(false);
 
   useEffect(() => {
     let mounted = true;
