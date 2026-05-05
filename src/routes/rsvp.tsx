@@ -34,9 +34,24 @@ const options = [
   { v: "no", label: "Not attending", icon: X, accent: "text-destructive" },
 ] as const;
 
+function useCountdown(target: Date) {
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const i = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(i);
+  }, []);
+  const diff = Math.max(0, target.getTime() - now);
+  const days = Math.floor(diff / 86400000);
+  const hours = Math.floor((diff % 86400000) / 3600000);
+  const minutes = Math.floor((diff % 3600000) / 60000);
+  const seconds = Math.floor((diff % 60000) / 1000);
+  return { days, hours, minutes, seconds, expired: diff === 0 };
+}
+
 function RsvpPage() {
   const navigate = useNavigate();
-  const isClosed = new Date() > RSVP_DEADLINE;
+  const countdown = useCountdown(RSVP_DEADLINE);
+  const isClosed = countdown.expired;
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({ name: "", phone: "", attendance: "yes" as "yes" | "no" | "maybe", message: "" });
 
