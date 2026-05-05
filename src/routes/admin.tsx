@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Link, Outlet, useLocation } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -15,8 +15,13 @@ import { markRemember, enforceRememberPolicy } from "@/lib/auth-remember";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({ meta: [{ title: "Admin Login" }, { name: "robots", content: "noindex" }] }),
-  component: AdminLogin,
+  component: AdminRoute,
 });
+
+function AdminRoute() {
+  const location = useLocation();
+  return location.pathname === "/admin" ? <AdminLogin /> : <Outlet />;
+}
 
 function AdminLogin() {
   const navigate = useNavigate();
