@@ -26,7 +26,9 @@ type Rsvp = {
   created_at: string;
 };
 
-type View = "overview" | "guests";
+type View = "overview" | "guests" | "admins";
+
+type AdminRow = { id: string; user_id: string; email: string };
 
 function Dashboard() {
   const navigate = useNavigate();
