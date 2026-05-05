@@ -45,23 +45,28 @@ function Dashboard() {
 
   useEffect(() => {
     let mounted = true;
-    const init = async () => {
-      const { data: sessionData } = await supabase.auth.getSession();
-      if (!sessionData.session) { navigate({ to: "/admin" }); return; }
-      setUserEmail(sessionData.session.user.email || "");
+    const loadFor = async (session: { user: { id: string; email?: string | null } }) => {
+      setUserEmail(session.user.email || "");
       const { data: roleRows } = await supabase.from("user_roles").select("role")
-        .eq("user_id", sessionData.session.user.id).eq("role", "admin");
+        .eq("user_id", session.user.id).eq("role", "admin");
       const admin = !!roleRows && roleRows.length > 0;
       if (!mounted) return;
       setIsAdmin(admin);
       if (!admin) { setLoading(false); return; }
-
       const { data, error } = await supabase.from("rsvps").select("*").order("created_at", { ascending: false });
       if (error) toast.error(error.message); else setRsvps(data || []);
       await loadAdmins();
       setLoading(false);
     };
-    init();
+
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
+      if (!session) { navigate({ to: "/admin" }); return; }
+    });
+
+    supabase.auth.getSession().then(({ data }) => {
+      if (!data.session) { navigate({ to: "/admin" }); return; }
+      loadFor(data.session);
+    });
 
     const channel = supabase.channel("rsvps-changes")
       .on("postgres_changes", { event: "*", schema: "public", table: "rsvps" }, (payload) => {
@@ -72,7 +77,7 @@ function Dashboard() {
           return prev;
         });
       }).subscribe();
-    return () => { mounted = false; supabase.removeChannel(channel); };
+    return () => { mounted = false; sub.subscription.unsubscribe(); supabase.removeChannel(channel); };
   }, [navigate]);
 
   const filtered = useMemo(() => {
