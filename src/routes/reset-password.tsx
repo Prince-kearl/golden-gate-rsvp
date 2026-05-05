@@ -23,6 +23,8 @@ function ResetPassword() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [showPw, setShowPw] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
     // Supabase puts recovery tokens in URL hash, parses on load,
