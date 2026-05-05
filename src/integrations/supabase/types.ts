@@ -75,6 +75,13 @@ export type Database = {
         }
         Returns: boolean
       }
+      list_admins: {
+        Args: never
+        Returns: {
+          email: string
+          user_id: string
+        }[]
+      }
       phone_exists: { Args: { _phone: string }; Returns: boolean }
     }
     Enums: {
