@@ -172,6 +172,7 @@ function Dashboard() {
   const navItems = [
     { id: "overview" as const, label: "Overview", icon: LayoutDashboard },
     { id: "guests" as const, label: "Guests", icon: UsersRound },
+    { id: "admins" as const, label: "Admins", icon: ShieldCheck },
   ];
 
   return (
