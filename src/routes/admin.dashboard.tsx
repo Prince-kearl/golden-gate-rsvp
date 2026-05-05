@@ -45,6 +45,7 @@ function Dashboard() {
 
   useEffect(() => {
     let mounted = true;
+    let initialized = false;
     const loadFor = async (session: { user: { id: string; email?: string | null } }) => {
       setUserEmail(session.user.email || "");
       const { data: roleRows } = await supabase.from("user_roles").select("role")
@@ -59,11 +60,17 @@ function Dashboard() {
       setLoading(false);
     };
 
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
-      if (!session) { navigate({ to: "/admin" }); return; }
+    // Listen for sign-out only AFTER initial session check completes,
+    // to avoid bouncing back to /admin on the INITIAL_SESSION event race.
+    const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
+      if (!initialized) return;
+      if (event === "SIGNED_OUT" || !session) {
+        navigate({ to: "/admin" });
+      }
     });
 
     supabase.auth.getSession().then(({ data }) => {
+      initialized = true;
       if (!data.session) { navigate({ to: "/admin" }); return; }
       loadFor(data.session);
     });
