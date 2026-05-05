@@ -26,6 +26,7 @@ function AdminLogin() {
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   // Forgot password dialog
   const [resetOpen, setResetOpen] = useState(false);
