@@ -45,11 +45,12 @@ function AdminLogin() {
     return raw;
   };
 
-  const checkAdminAccess = async (userId: string): Promise<boolean> => {
+  const checkAdminAccess = async (userId: string): Promise<{ ok: boolean; error?: string }> => {
     const { data, error } = await supabase
       .from("user_roles").select("role").eq("user_id", userId).eq("role", "admin");
-    if (error) return false;
-    return !!data && data.length > 0;
+    if (error) return { ok: false, error: `Role check failed: ${error.message}${error.code ? ` (code: ${error.code})` : ""}` };
+    if (!data || data.length === 0) return { ok: false, error: "No admin role found for this account in user_roles." };
+    return { ok: true };
   };
 
   useEffect(() => {
@@ -80,12 +81,13 @@ function AdminLogin() {
       } else {
         const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        if (!data.session) throw new Error("Sign in failed. Please try again.");
+        if (!data.session) throw new Error("Sign in returned no session. Please try again.");
 
-        const isAdmin = await checkAdminAccess(data.session.user.id);
-        if (!isAdmin) {
+        const result = await checkAdminAccess(data.session.user.id);
+        if (!result.ok) {
           await supabase.auth.signOut();
-          setErrorMsg("This account doesn't have admin access. Please contact the event owner to be granted permission.");
+          const detail = result.error ?? "Unknown role error";
+          setErrorMsg(`Admin access denied — ${detail}`);
           toast.error("Admin access required");
           return;
         }
@@ -95,7 +97,8 @@ function AdminLogin() {
     } catch (err: unknown) {
       const raw = err instanceof Error ? err.message : "Authentication failed";
       const friendly = friendlyError(raw);
-      setErrorMsg(friendly);
+      // Show both user-friendly and raw detail (without secrets) so issues can be diagnosed.
+      setErrorMsg(friendly === raw ? raw : `${friendly} — ${raw}`);
       toast.error(friendly);
     } finally { setLoading(false); }
   };
