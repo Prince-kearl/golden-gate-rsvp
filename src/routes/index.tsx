@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Calendar, Clock, MapPin, ArrowUpRight, Sparkles, Phone, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroImg from "@/assets/hero.jpg";
+import { MotionBackground } from "@/components/MotionBackground";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -18,6 +19,7 @@ function Landing() {
     <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
       {/* Ambient backdrop */}
       <div className="absolute inset-0 bg-spot pointer-events-none" />
+      <MotionBackground />
       <div className="absolute inset-0 grid-pattern opacity-40 pointer-events-none [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]" />
 
       {/* Nav */}
