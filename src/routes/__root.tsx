@@ -32,10 +32,14 @@ export const Route = createRootRoute({
       { title: "Charles Osam's Birthday Party — RSVP" },
       { name: "description", content: "Join us at Casa 1715 on May 16th. RSVP by May 12, 2026." },
       { property: "og:title", content: "Charles Osam's Birthday Party — RSVP" },
-      { property: "og:description", content: "An elegant evening at Casa 1715. RSVP by May 12, 2026." },
+      { property: "og:description", content: "Join us at Casa 1715 on May 16th. RSVP by May 12, 2026." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Charles Osam's Birthday Party — RSVP" },
+      { name: "twitter:description", content: "Join us at Casa 1715 on May 16th. RSVP by May 12, 2026." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/12e1a662-d8ed-4bb9-a56d-093fb39403a1/id-preview-c8d584aa--c1e0f377-67d1-465c-ba39-5be5ebfe7ae7.lovable.app-1777943842300.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/12e1a662-d8ed-4bb9-a56d-093fb39403a1/id-preview-c8d584aa--c1e0f377-67d1-465c-ba39-5be5ebfe7ae7.lovable.app-1777943842300.png" },
     ],
     links: [
       {
