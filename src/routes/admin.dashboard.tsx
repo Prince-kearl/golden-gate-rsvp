@@ -237,9 +237,9 @@ function Dashboard() {
         <main className="flex-1 min-w-0">
           <header className="px-6 lg:px-10 py-6 flex items-center justify-between border-b border-border/50">
             <div>
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">{view === "overview" ? "Dashboard" : "Guests"}</p>
+              <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">{view === "overview" ? "Dashboard" : view === "guests" ? "Guests" : "Admins"}</p>
               <h1 className="font-display text-2xl md:text-3xl">
-                {view === "overview" ? "RSVP Overview" : "Guest List"}
+                {view === "overview" ? "RSVP Overview" : view === "guests" ? "Guest List" : "Admin Access"}
               </h1>
             </div>
             <div className="flex items-center gap-2">
