@@ -58,6 +58,7 @@ function Dashboard() {
 
       const { data, error } = await supabase.from("rsvps").select("*").order("created_at", { ascending: false });
       if (error) toast.error(error.message); else setRsvps(data || []);
+      await loadAdmins();
       setLoading(false);
     };
     init();
