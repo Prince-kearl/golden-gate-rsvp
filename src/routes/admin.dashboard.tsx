@@ -98,6 +98,42 @@ function Dashboard() {
     if (error) toast.error(error.message);
   };
 
+  const loadAdmins = async () => {
+    const { data, error } = await supabase.rpc("list_admins");
+    if (error) { toast.error(error.message); return; }
+    setAdmins((data || []).map((r: { user_id: string; email: string }) => ({ id: r.user_id, user_id: r.user_id, email: r.email })));
+  };
+
+  const addAdmin = async () => {
+    const email = newAdminEmail.trim().toLowerCase();
+    if (!email) return;
+    setAddingAdmin(true);
+    try {
+      const { data: uid, error: e1 } = await supabase.rpc("get_user_id_by_email", { _email: email });
+      if (e1) throw e1;
+      if (!uid) { toast.error("No user with that email. They must sign up first."); return; }
+      const { error: e2 } = await supabase.from("user_roles").insert({ user_id: uid, role: "admin" });
+      if (e2) {
+        if (e2.code === "23505") toast.info("User is already an admin.");
+        else throw e2;
+      } else {
+        toast.success(`${email} is now an admin.`);
+      }
+      setNewAdminEmail("");
+      await loadAdmins();
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Failed to add admin");
+    } finally { setAddingAdmin(false); }
+  };
+
+  const removeAdmin = async (uid: string, email: string) => {
+    if (!confirm(`Revoke admin access for ${email}?`)) return;
+    const { error } = await supabase.from("user_roles").delete().eq("user_id", uid).eq("role", "admin");
+    if (error) { toast.error(error.message); return; }
+    toast.success("Admin access revoked.");
+    await loadAdmins();
+  };
+
   const exportCsv = () => {
     const headers = ["Name", "Phone", "Attendance", "Message", "Checked In", "Submitted"];
     const rows = filtered.map((r) => [r.name, r.phone, r.attendance, r.message || "", r.checked_in ? "Yes" : "No", new Date(r.created_at).toLocaleString()]);
