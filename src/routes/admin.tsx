@@ -21,9 +21,13 @@ function AdminLogin() {
   const [mode, setMode] = useState<"signin" | "signup">("signin");
 
   useEffect(() => {
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
+      if (session) navigate({ to: "/admin/dashboard" });
+    });
     supabase.auth.getSession().then(({ data }) => {
       if (data.session) navigate({ to: "/admin/dashboard" });
     });
+    return () => sub.subscription.unsubscribe();
   }, [navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -38,9 +42,9 @@ function AdminLogin() {
         if (error) throw error;
         toast.success("Account created. Ask the system owner to grant admin access.");
       } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        navigate({ to: "/admin/dashboard" });
+        if (data.session) navigate({ to: "/admin/dashboard" });
       }
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : "Authentication failed");
