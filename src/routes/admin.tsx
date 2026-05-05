@@ -1,10 +1,10 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Lock } from "lucide-react";
+import { Lock, ArrowLeft, Mail, KeyRound } from "lucide-react";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -32,8 +32,7 @@ function AdminLogin() {
     try {
       if (mode === "signup") {
         const { error } = await supabase.auth.signUp({
-          email,
-          password,
+          email, password,
           options: { emailRedirectTo: `${window.location.origin}/admin/dashboard` },
         });
         if (error) throw error;
@@ -45,39 +44,53 @@ function AdminLogin() {
       }
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : "Authentication failed");
-    } finally {
-      setLoading(false);
-    }
+    } finally { setLoading(false); }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-6">
+    <div className="min-h-screen flex flex-col bg-background relative overflow-hidden">
       <Toaster position="top-center" theme="dark" />
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-gold/10 text-gold mb-4">
-            <Lock className="w-6 h-6" />
+      <div className="absolute inset-0 bg-spot pointer-events-none" />
+
+      <header className="relative z-10 max-w-5xl mx-auto w-full px-6 py-6">
+        <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition">
+          <ArrowLeft className="w-4 h-4" /> Home
+        </Link>
+      </header>
+
+      <main className="relative z-10 flex-1 flex items-center justify-center px-6 pb-12">
+        <div className="w-full max-w-md">
+          <div className="text-center mb-8 animate-fade-up">
+            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-gold mb-4 shadow-gold">
+              <Lock className="w-6 h-6 text-primary-foreground" />
+            </div>
+            <h1 className="font-display text-3xl">Admin Access</h1>
+            <p className="text-sm text-muted-foreground mt-2">Charles Osam's Birthday RSVP</p>
           </div>
-          <h1 className="font-display text-3xl">Admin Access</h1>
-          <p className="text-sm text-muted-foreground mt-2">Charles Osam's Birthday RSVP</p>
+          <form onSubmit={handleSubmit} className="rounded-3xl bg-gradient-surface ring-border p-7 space-y-5 shadow-card animate-fade-up delay-100">
+            <div className="space-y-2">
+              <Label htmlFor="email" className="text-xs uppercase tracking-widest text-muted-foreground">Email</Label>
+              <div className="relative">
+                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="pl-10 h-11 bg-surface-elevated border-border/60 rounded-xl focus-visible:ring-gold/50" />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password" className="text-xs uppercase tracking-widest text-muted-foreground">Password</Label>
+              <div className="relative">
+                <KeyRound className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} className="pl-10 h-11 bg-surface-elevated border-border/60 rounded-xl focus-visible:ring-gold/50" />
+              </div>
+            </div>
+            <Button type="submit" disabled={loading} className="w-full bg-gradient-gold text-primary-foreground hover:opacity-90 shadow-gold h-11 rounded-xl font-medium">
+              {loading ? "Please wait..." : mode === "signin" ? "Sign In" : "Create Account"}
+            </Button>
+            <button type="button" onClick={() => setMode(mode === "signin" ? "signup" : "signin")} className="block w-full text-center text-xs text-muted-foreground hover:text-gold transition-colors">
+              {mode === "signin" ? "Need an account? Sign up" : "Have an account? Sign in"}
+            </button>
+          </form>
         </div>
-        <form onSubmit={handleSubmit} className="bg-card border border-border rounded-xl p-8 space-y-5 shadow-elegant">
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} />
-          </div>
-          <Button type="submit" disabled={loading} className="w-full bg-gradient-gold text-primary-foreground hover:opacity-90 h-11 rounded-full">
-            {loading ? "Please wait..." : mode === "signin" ? "Sign In" : "Create Account"}
-          </Button>
-          <button type="button" onClick={() => setMode(mode === "signin" ? "signup" : "signin")} className="block w-full text-center text-xs text-muted-foreground hover:text-gold transition-colors">
-            {mode === "signin" ? "Need an account? Sign up" : "Have an account? Sign in"}
-          </button>
-        </form>
-      </div>
+      </main>
     </div>
   );
 }
