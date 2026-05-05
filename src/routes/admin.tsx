@@ -4,9 +4,14 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Lock, ArrowLeft, Mail, KeyRound, AlertCircle } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter,
+} from "@/components/ui/dialog";
+import { Lock, ArrowLeft, Mail, KeyRound, AlertCircle, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
+import { markRemember, enforceRememberPolicy } from "@/lib/auth-remember";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({ meta: [{ title: "Admin Login" }, { name: "robots", content: "noindex" }] }),
@@ -17,9 +22,17 @@ function AdminLogin() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [remember, setRemember] = useState(true);
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  // Forgot password dialog
+  const [resetOpen, setResetOpen] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
+  const [resetLoading, setResetLoading] = useState(false);
+  const [resetSent, setResetSent] = useState(false);
+  const [resetError, setResetError] = useState<string | null>(null);
 
   const friendlyError = (raw: string): string => {
     const m = raw.toLowerCase();
@@ -34,20 +47,20 @@ function AdminLogin() {
 
   const checkAdminAccess = async (userId: string): Promise<boolean> => {
     const { data, error } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", userId)
-      .eq("role", "admin");
+      .from("user_roles").select("role").eq("user_id", userId).eq("role", "admin");
     if (error) return false;
     return !!data && data.length > 0;
   };
 
   useEffect(() => {
+    let signedOut = false;
+    enforceRememberPolicy().then((didSignOut) => { signedOut = didSignOut; });
+
     const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
-      if (session) navigate({ to: "/admin/dashboard" });
+      if (session && !signedOut) navigate({ to: "/admin/dashboard" });
     });
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/admin/dashboard" });
+      if (data.session && !signedOut) navigate({ to: "/admin/dashboard" });
     });
     return () => sub.subscription.unsubscribe();
   }, [navigate]);
@@ -76,6 +89,7 @@ function AdminLogin() {
           toast.error("Admin access required");
           return;
         }
+        markRemember(remember);
         navigate({ to: "/admin/dashboard" });
       }
     } catch (err: unknown) {
@@ -84,6 +98,34 @@ function AdminLogin() {
       setErrorMsg(friendly);
       toast.error(friendly);
     } finally { setLoading(false); }
+  };
+
+  const handleResetSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setResetError(null);
+    const target = (resetEmail || email).trim();
+    if (!target) { setResetError("Enter your email address."); return; }
+    setResetLoading(true);
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(target, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+      if (error) throw error;
+      setResetSent(true);
+      toast.success("Password reset email sent");
+    } catch (err: unknown) {
+      const raw = err instanceof Error ? err.message : "Failed to send reset email";
+      const friendly = friendlyError(raw);
+      setResetError(friendly);
+      toast.error(friendly);
+    } finally { setResetLoading(false); }
+  };
+
+  const openReset = () => {
+    setResetEmail(email);
+    setResetSent(false);
+    setResetError(null);
+    setResetOpen(true);
   };
 
   return (
@@ -121,12 +163,34 @@ function AdminLogin() {
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-xs uppercase tracking-widest text-muted-foreground">Password</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="password" className="text-xs uppercase tracking-widest text-muted-foreground">Password</Label>
+                {mode === "signin" && (
+                  <button type="button" onClick={openReset} className="text-xs text-gold hover:underline">
+                    Forgot password?
+                  </button>
+                )}
+              </div>
               <div className="relative">
                 <KeyRound className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} className="pl-10 h-11 bg-surface-elevated border-border/60 rounded-xl focus-visible:ring-gold/50" />
               </div>
             </div>
+
+            {mode === "signin" && (
+              <div className="flex items-center gap-2.5 pt-1">
+                <Checkbox
+                  id="remember"
+                  checked={remember}
+                  onCheckedChange={(v) => setRemember(v === true)}
+                  className="data-[state=checked]:bg-gold data-[state=checked]:border-gold data-[state=checked]:text-primary-foreground"
+                />
+                <Label htmlFor="remember" className="text-xs text-muted-foreground cursor-pointer select-none">
+                  Remember me on this device
+                </Label>
+              </div>
+            )}
+
             <Button type="submit" disabled={loading} className="w-full bg-gradient-gold text-primary-foreground hover:opacity-90 shadow-gold h-11 rounded-xl font-medium">
               {loading ? "Please wait..." : mode === "signin" ? "Sign In" : "Create Account"}
             </Button>
@@ -136,6 +200,60 @@ function AdminLogin() {
           </form>
         </div>
       </main>
+
+      <Dialog open={resetOpen} onOpenChange={setResetOpen}>
+        <DialogContent className="bg-gradient-surface ring-border rounded-3xl border-border/50 max-w-md">
+          <DialogHeader>
+            <DialogTitle className="font-display text-2xl">Reset your password</DialogTitle>
+            <DialogDescription className="text-muted-foreground">
+              {resetSent
+                ? "Check your inbox for a reset link. It may take a minute to arrive."
+                : "Enter the email associated with your admin account and we'll send a reset link."}
+            </DialogDescription>
+          </DialogHeader>
+
+          {resetSent ? (
+            <div className="space-y-4">
+              <div className="flex items-start gap-3 rounded-xl border border-gold/30 bg-gold/10 px-4 py-3 text-sm">
+                <CheckCircle2 className="w-4 h-4 mt-0.5 shrink-0 text-gold" />
+                <span className="leading-relaxed">Reset email sent to <strong>{(resetEmail || email).trim()}</strong>.</span>
+              </div>
+              <DialogFooter>
+                <Button onClick={() => setResetOpen(false)} className="bg-gradient-gold text-primary-foreground hover:opacity-90 rounded-xl">Done</Button>
+              </DialogFooter>
+            </div>
+          ) : (
+            <form onSubmit={handleResetSubmit} className="space-y-4">
+              {resetError && (
+                <div role="alert" className="flex items-start gap-3 rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+                  <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+                  <span className="leading-relaxed">{resetError}</span>
+                </div>
+              )}
+              <div className="space-y-2">
+                <Label htmlFor="reset-email" className="text-xs uppercase tracking-widest text-muted-foreground">Email</Label>
+                <div className="relative">
+                  <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Input
+                    id="reset-email"
+                    type="email"
+                    value={resetEmail}
+                    onChange={(e) => setResetEmail(e.target.value)}
+                    required
+                    className="pl-10 h-11 bg-surface-elevated border-border/60 rounded-xl focus-visible:ring-gold/50"
+                  />
+                </div>
+              </div>
+              <DialogFooter className="gap-2 sm:gap-2">
+                <Button type="button" variant="outline" onClick={() => setResetOpen(false)} className="rounded-xl">Cancel</Button>
+                <Button type="submit" disabled={resetLoading} className="bg-gradient-gold text-primary-foreground hover:opacity-90 rounded-xl">
+                  {resetLoading ? "Sending…" : "Send reset link"}
+                </Button>
+              </DialogFooter>
+            </form>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
