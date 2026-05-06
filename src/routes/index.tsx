@@ -140,28 +140,8 @@ function Landing() {
 
       {/* Details strip */}
       <section id="details" className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 pb-24">
-        <div className="grid md:grid-cols-3 gap-4">
-          {[
-            { icon: Calendar, label: "Date", value: "Saturday, May 16", href: undefined as string | undefined },
-            { icon: Clock, label: "Time", value: "8:00 PM onwards", href: undefined as string | undefined },
-            { icon: Phone, label: "Contact", value: "0539 456 478", href: "tel:+233539456478" },
-          ].map((item, i) => {
-            const Wrapper: any = item.href ? "a" : "div";
-            const wrapperProps = item.href ? { href: item.href } : {};
-            return (
-              <Wrapper key={item.label} {...wrapperProps} className="group block rounded-2xl bg-surface ring-border p-5 hover:bg-surface-elevated transition-all animate-fade-up" style={{ animationDelay: `${i * 80}ms` }}>
-                <div className="flex items-center justify-between mb-6">
-                  <div className="w-9 h-9 rounded-lg bg-gold/10 flex items-center justify-center">
-                    <item.icon className="w-4 h-4 text-gold" />
-                  </div>
-                  <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-gold group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all" />
-                </div>
-                <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">{item.label}</p>
-                <p className="font-medium">{item.value}</p>
-              </Wrapper>
-            );
-          })}
-        </div>
+        <DetailsStrip />
+
 
         {/* Map */}
         <div className="mt-10 rounded-3xl overflow-hidden ring-border bg-surface">
