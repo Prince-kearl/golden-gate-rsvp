@@ -170,14 +170,6 @@ function Landing() {
                   Find us on the map. Parking is available on-site. Arrive a few minutes early to settle in.
                 </p>
               </div>
-              <a
-                href="https://www.google.com/maps/search/?api=1&query=Casa+1715+Accra"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm text-gold hover:text-foreground transition w-fit"
-              >
-                Open in Google Maps <ArrowUpRight className="w-4 h-4" />
-              </a>
             </div>
             <div className="md:col-span-3 min-h-[280px] md:min-h-[360px] relative overflow-hidden bg-surface-elevated">
               <div className="absolute inset-0 opacity-70 grid-pattern" />
