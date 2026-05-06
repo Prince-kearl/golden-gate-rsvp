@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Music, VolumeX } from "lucide-react";
 
-// Royalty-free jazz tracks (Kevin MacLeod / incompetech.com — CC BY 4.0)
+// Modern jazz — Kevin MacLeod / incompetech.com (CC BY 4.0)
 const TRACK_URL =
-  "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Bossa%20Antigua.mp3";
+  "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Smooth%20Lovin.mp3";
 const FALLBACK_URL =
-  "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Take%20a%20Chance.mp3";
+  "https://incompetech.com/music/royalty-free/mp3-royaltyfree/George%20Street%20Shuffle.mp3";
 
 export function JazzPlayer() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
