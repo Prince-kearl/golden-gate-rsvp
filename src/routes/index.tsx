@@ -209,5 +209,6 @@ function Landing() {
         © 2026 Charles Osam · <Link to="/admin" className="hover:text-gold transition">Admin</Link>
       </footer>
     </div>
+    </>
   );
 }
