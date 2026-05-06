@@ -143,7 +143,7 @@ function Landing() {
             <h2 className="font-display text-3xl md:text-4xl mb-2">Ready to celebrate?</h2>
             <p className="text-sm text-card-foreground/70">Invite admits 1 only. Confirm your attendance now.</p>
           </div>
-          <Link to="/rsvp">
+          <Link to="/rsvp" className="gold-glow">
             <Button size="lg" className="bg-card-foreground text-ink hover:bg-card-foreground/90 rounded-md h-12 px-8 text-xs uppercase tracking-mono">
               Confirm Attendance <ArrowUpRight className="w-4 h-4 ml-2" />
             </Button>
