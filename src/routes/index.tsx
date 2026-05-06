@@ -141,6 +141,39 @@ function Landing() {
           ))}
         </div>
 
+        {/* Map */}
+        <div className="mt-10 rounded-3xl overflow-hidden ring-border bg-surface">
+          <div className="grid md:grid-cols-5">
+            <div className="md:col-span-2 p-8 md:p-10 flex flex-col justify-between gap-6">
+              <div>
+                <p className="text-xs uppercase tracking-widest text-gold mb-3">Location</p>
+                <h3 className="font-display text-2xl md:text-3xl mb-3">Casa 1715</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Find us on the map. Parking is available on-site. Arrive a few minutes early to settle in.
+                </p>
+              </div>
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=Casa+1715+Accra"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm text-gold hover:text-foreground transition w-fit"
+              >
+                Open in Google Maps <ArrowUpRight className="w-4 h-4" />
+              </a>
+            </div>
+            <div className="md:col-span-3 min-h-[280px] md:min-h-[360px]">
+              <iframe
+                title="Casa 1715 location"
+                src="https://www.google.com/maps?q=Casa+1715+Accra&output=embed"
+                className="w-full h-full border-0 grayscale contrast-110"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
+            </div>
+          </div>
+        </div>
+
         <div className="mt-10 rounded-3xl bg-gradient-surface ring-border p-8 md:p-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div>
             <p className="text-xs uppercase tracking-widest text-gold mb-3">RSVP by May 12, 2026</p>
