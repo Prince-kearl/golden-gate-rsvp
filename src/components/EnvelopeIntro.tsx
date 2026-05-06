@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles } from "lucide-react";
 
 interface EnvelopeIntroProps {
   onComplete?: () => void;
@@ -10,29 +9,20 @@ export function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
   const [phase, setPhase] = useState<"idle" | "breaking" | "opening" | "done">("idle");
   const [hidden, setHidden] = useState(false);
 
-  // Auto-trigger after a short delay if user doesn't click
-  useEffect(() => {
-    const t = setTimeout(() => {
-      setPhase((p) => (p === "idle" ? "breaking" : p));
-    }, 2200);
-    return () => clearTimeout(t);
-  }, []);
-
-  // Phase progression
   useEffect(() => {
     if (phase === "breaking") {
-      const t = setTimeout(() => setPhase("opening"), 700);
+      const t = setTimeout(() => setPhase("opening"), 650);
       return () => clearTimeout(t);
     }
     if (phase === "opening") {
-      const t = setTimeout(() => setPhase("done"), 1200);
+      const t = setTimeout(() => setPhase("done"), 1300);
       return () => clearTimeout(t);
     }
     if (phase === "done") {
       const t = setTimeout(() => {
         setHidden(true);
         onComplete?.();
-      }, 1400);
+      }, 1100);
       return () => clearTimeout(t);
     }
   }, [phase, onComplete]);
@@ -41,6 +31,8 @@ export function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
     if (phase === "idle") setPhase("breaking");
   };
 
+  const opened = phase === "opening" || phase === "done";
+
   return (
     <AnimatePresence>
       {!hidden && (
@@ -48,18 +40,18 @@ export function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
           className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.8, ease: "easeInOut" }}
+          transition={{ duration: 0.7, ease: "easeInOut" }}
           style={{
             background:
-              "radial-gradient(ellipse at center, #e8c98a 0%, #c89a5a 45%, #6b4422 100%)",
+              "radial-gradient(ellipse at 50% 40%, #1a1a1c 0%, #0a0a0b 60%, #000 100%)",
           }}
         >
-          {/* Vignette */}
+          {/* Brushed light strokes (subtle) */}
           <div
-            className="absolute inset-0 pointer-events-none"
+            className="absolute inset-0 pointer-events-none opacity-[0.06]"
             style={{
-              background:
-                "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.55) 100%)",
+              backgroundImage:
+                "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
             }}
           />
 
@@ -69,125 +61,122 @@ export function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
               setHidden(true);
               onComplete?.();
             }}
-            className="absolute top-6 right-6 text-xs uppercase tracking-[0.25em] text-white/70 hover:text-white transition z-10"
+            className="absolute top-6 right-6 text-[10px] uppercase tracking-[0.32em] text-white/50 hover:text-white/90 transition z-10"
           >
             Skip
           </button>
 
-          {/* Stage with perspective */}
+          {/* Stage */}
           <div
             className="relative"
-            style={{ perspective: "1400px", perspectiveOrigin: "50% 30%" }}
+            style={{ perspective: "1600px", perspectiveOrigin: "50% 25%" }}
           >
-            {/* Floating wrapper */}
             <motion.div
               animate={
                 phase === "idle"
-                  ? { y: [0, -8, 0] }
+                  ? { y: [0, -6, 0], rotateX: [4, 6, 4] }
                   : phase === "done"
-                    ? { y: 80, opacity: 0, scale: 0.92 }
-                    : { y: 0 }
+                    ? { y: 100, opacity: 0, scale: 0.9 }
+                    : { y: 0, rotateX: 4 }
               }
               transition={
                 phase === "idle"
-                  ? { duration: 4, repeat: Infinity, ease: "easeInOut" }
-                  : { duration: 1.2, ease: "easeInOut" }
+                  ? { duration: 5, repeat: Infinity, ease: "easeInOut" }
+                  : { duration: 1.1, ease: "easeInOut" }
               }
               className="relative"
-              style={{ width: "min(86vw, 440px)", aspectRatio: "1.5 / 1" }}
+              style={{
+                width: "min(86vw, 460px)",
+                aspectRatio: "1.5 / 1",
+                transformStyle: "preserve-3d",
+              }}
             >
-              {/* Soft shadow under envelope */}
+              {/* Drop shadow */}
               <div
-                className="absolute left-1/2 -translate-x-1/2 rounded-full"
+                className="absolute left-1/2 -translate-x-1/2 rounded-[50%] pointer-events-none"
                 style={{
-                  bottom: "-40px",
-                  width: "70%",
-                  height: "32px",
+                  bottom: "-50px",
+                  width: "78%",
+                  height: "44px",
                   background:
-                    "radial-gradient(ellipse, rgba(0,0,0,0.45) 0%, transparent 70%)",
-                  filter: "blur(8px)",
+                    "radial-gradient(ellipse, rgba(0,0,0,0.65) 0%, transparent 70%)",
+                  filter: "blur(14px)",
                 }}
               />
 
-              {/* Envelope body (back) */}
+              {/* Envelope back / pocket */}
               <div
-                className="absolute inset-0 rounded-[6px]"
+                className="absolute inset-0 rounded-[8px] overflow-hidden"
                 style={{
                   background:
-                    "linear-gradient(155deg, #f5e9d0 0%, #ead9b6 50%, #d8c39a 100%)",
+                    "linear-gradient(155deg, #1c1c1e 0%, #0e0e10 50%, #050506 100%)",
                   boxShadow:
-                    "inset 0 0 60px rgba(120, 80, 30, 0.15), 0 30px 60px -20px rgba(0,0,0,0.5), 0 10px 25px -10px rgba(0,0,0,0.4)",
+                    "inset 0 0 80px rgba(0,0,0,0.7), 0 40px 80px -20px rgba(0,0,0,0.85), 0 14px 30px -10px rgba(0,0,0,0.6)",
                 }}
               >
-                {/* Paper texture noise */}
+                {/* paper grain */}
                 <div
-                  className="absolute inset-0 rounded-[6px] opacity-[0.18] mix-blend-multiply"
+                  className="absolute inset-0 opacity-[0.35] mix-blend-overlay"
                   style={{
                     backgroundImage:
-                      "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.6'/></svg>\")",
+                      "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.55'/></svg>\")",
+                  }}
+                />
+                {/* edge highlight */}
+                <div
+                  className="absolute inset-0 rounded-[8px] pointer-events-none"
+                  style={{
+                    boxShadow:
+                      "inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.6)",
                   }}
                 />
               </div>
 
-              {/* Inner content (revealed when flap opens) */}
+              {/* Inner card (revealed) */}
               <motion.div
-                className="absolute left-[6%] right-[6%] top-[10%] bottom-[10%] rounded-[4px] flex flex-col items-center justify-center px-6 text-center"
+                className="absolute left-[6%] right-[6%] top-[10%] bottom-[10%] rounded-[5px] flex flex-col items-center justify-center px-6 text-center"
                 style={{
                   background:
-                    "linear-gradient(180deg, #fbf3df 0%, #f3e6c4 100%)",
+                    "linear-gradient(180deg, #f7f4ec 0%, #ece6d4 100%)",
                   boxShadow:
-                    "inset 0 0 30px rgba(120, 80, 30, 0.18)",
+                    "inset 0 0 40px rgba(80, 60, 30, 0.18), 0 6px 18px rgba(0,0,0,0.4)",
                 }}
-                initial={{ y: 40, opacity: 0 }}
+                initial={{ y: 30, opacity: 0 }}
                 animate={
-                  phase === "opening" || phase === "done"
-                    ? { y: -30, opacity: 1 }
-                    : { y: 40, opacity: 0 }
+                  opened ? { y: -34, opacity: 1 } : { y: 30, opacity: 0 }
                 }
-                transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
+                transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
               >
-                {/* Glow */}
-                <motion.div
-                  className="absolute inset-0 rounded-[4px] pointer-events-none"
-                  style={{
-                    background:
-                      "radial-gradient(ellipse at center, rgba(255, 220, 140, 0.5) 0%, transparent 70%)",
-                  }}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: phase === "opening" || phase === "done" ? 1 : 0 }}
-                  transition={{ duration: 0.8 }}
-                />
                 <div className="relative z-10">
-                  <Sparkles className="w-5 h-5 mx-auto mb-3" style={{ color: "#a8741f" }} />
                   <p
-                    className="text-[10px] uppercase tracking-[0.4em] mb-2"
-                    style={{ color: "#8a5a1a" }}
+                    className="text-[10px] uppercase tracking-[0.4em] mb-3"
+                    style={{ color: "#7a7a82" }}
                   >
                     You're Invited
                   </p>
                   <p
-                    className="font-display italic text-2xl md:text-3xl"
-                    style={{ color: "#3a2410" }}
+                    className="font-display text-3xl md:text-4xl"
+                    style={{ color: "#1a1a1c" }}
                   >
-                    Charles Osam's
+                    Charles Osam
                   </p>
                   <p
-                    className="font-display text-base md:text-lg tracking-wide"
-                    style={{ color: "#5a3818" }}
+                    className="font-display italic text-sm md:text-base mt-1"
+                    style={{ color: "#5a5a62" }}
                   >
-                    Birthday Celebration
+                    Birthday Soirée
                   </p>
                 </div>
               </motion.div>
 
-              {/* Bottom triangle (front fold) */}
+              {/* Bottom triangle */}
               <div
                 className="absolute inset-0 pointer-events-none"
                 style={{
                   clipPath: "polygon(0 100%, 100% 100%, 50% 45%)",
                   background:
-                    "linear-gradient(180deg, #ead9b6 0%, #d4bc8f 100%)",
-                  boxShadow: "inset 0 -10px 20px rgba(0,0,0,0.08)",
+                    "linear-gradient(180deg, #18181a 0%, #07070a 100%)",
+                  boxShadow: "inset 0 -10px 24px rgba(0,0,0,0.6)",
                 }}
               />
               {/* Left triangle */}
@@ -196,7 +185,7 @@ export function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
                 style={{
                   clipPath: "polygon(0 0, 0 100%, 50% 50%)",
                   background:
-                    "linear-gradient(135deg, #f0dfba 0%, #d8c39a 100%)",
+                    "linear-gradient(135deg, #1f1f22 0%, #0c0c0e 100%)",
                 }}
               />
               {/* Right triangle */}
@@ -205,131 +194,155 @@ export function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
                 style={{
                   clipPath: "polygon(100% 0, 100% 100%, 50% 50%)",
                   background:
-                    "linear-gradient(225deg, #f0dfba 0%, #d8c39a 100%)",
+                    "linear-gradient(225deg, #1f1f22 0%, #0c0c0e 100%)",
+                }}
+              />
+              {/* Center seam highlights */}
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background:
+                    "linear-gradient(180deg, transparent 44%, rgba(255,255,255,0.04) 45%, transparent 46%)",
                 }}
               />
 
-              {/* Top flap (hinge at top) */}
+              {/* Top flap */}
               <motion.div
-                className="absolute inset-0 origin-top"
+                className="absolute inset-0"
                 style={{
                   transformStyle: "preserve-3d",
                   transformOrigin: "50% 0%",
-                  zIndex: phase === "opening" || phase === "done" ? 5 : 30,
+                  zIndex: opened ? 5 : 30,
                 }}
                 initial={{ rotateX: 0 }}
-                animate={{
-                  rotateX: phase === "opening" || phase === "done" ? -175 : 0,
-                }}
-                transition={{ duration: 1.1, ease: [0.65, 0, 0.35, 1], delay: 0.1 }}
+                animate={{ rotateX: opened ? -178 : 0 }}
+                transition={{ duration: 1.2, ease: [0.65, 0, 0.35, 1], delay: 0.15 }}
               >
+                {/* Front face */}
                 <div
                   className="absolute inset-0"
                   style={{
                     clipPath: "polygon(0 0, 100% 0, 50% 55%)",
                     background:
-                      "linear-gradient(180deg, #f5e9d0 0%, #e0cca0 100%)",
-                    boxShadow: "inset 0 4px 12px rgba(0,0,0,0.08)",
+                      "linear-gradient(180deg, #232326 0%, #111114 60%, #0a0a0c 100%)",
+                    boxShadow:
+                      "inset 0 4px 14px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06)",
                     backfaceVisibility: "hidden",
                   }}
                 />
-                {/* Back side of flap (visible when opened) */}
+                {/* Back face */}
                 <div
                   className="absolute inset-0"
                   style={{
                     clipPath: "polygon(0 0, 100% 0, 50% 55%)",
                     background:
-                      "linear-gradient(0deg, #fbf3df 0%, #f0e2bf 100%)",
+                      "linear-gradient(0deg, #1a1a1c 0%, #0c0c0e 100%)",
                     transform: "rotateX(180deg)",
                     backfaceVisibility: "hidden",
                   }}
                 />
 
-                {/* Wax seal — sits on the flap */}
+                {/* Silver wax seal */}
                 <motion.button
                   onClick={handleOpen}
                   disabled={phase !== "idle"}
-                  className="absolute left-1/2 -translate-x-1/2 rounded-full group"
+                  aria-label="Open envelope"
+                  className="absolute left-1/2 -translate-x-1/2 rounded-full"
                   style={{
-                    top: "30%",
-                    width: "78px",
-                    height: "78px",
+                    top: "28%",
+                    width: "92px",
+                    height: "92px",
                     cursor: phase === "idle" ? "pointer" : "default",
                     backfaceVisibility: "hidden",
+                    background: "transparent",
+                    border: "none",
+                    padding: 0,
                   }}
-                  whileHover={phase === "idle" ? { scale: 1.06 } : {}}
+                  whileHover={phase === "idle" ? { scale: 1.05 } : {}}
+                  whileTap={phase === "idle" ? { scale: 0.96 } : {}}
                   animate={
                     phase === "breaking"
-                      ? { scale: [1, 1.15, 0.95, 1], rotate: [0, -3, 4, 0] }
+                      ? { scale: [1, 1.18, 0.94, 1], rotate: [0, -4, 5, 0] }
                       : { scale: 1 }
                   }
                   transition={{ duration: 0.6, ease: "easeOut" }}
                 >
-                  {/* Idle pulse ring */}
+                  {/* Pulse ring */}
                   {phase === "idle" && (
                     <motion.div
-                      className="absolute inset-0 rounded-full"
-                      style={{ boxShadow: "0 0 0 0 rgba(180,40,30,0.5)" }}
+                      className="absolute inset-0 rounded-full pointer-events-none"
                       animate={{
                         boxShadow: [
-                          "0 0 0 0 rgba(180,40,30,0.55)",
-                          "0 0 0 18px rgba(180,40,30,0)",
+                          "0 0 0 0 rgba(200,205,215,0.5)",
+                          "0 0 0 22px rgba(200,205,215,0)",
                         ],
                       }}
-                      transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut" }}
+                      transition={{ duration: 1.9, repeat: Infinity, ease: "easeOut" }}
                     />
                   )}
 
-                  {/* Seal halves — split apart on break */}
+                  {/* Drop shadow under seal */}
+                  <div
+                    className="absolute inset-0 rounded-full pointer-events-none"
+                    style={{
+                      boxShadow:
+                        "0 8px 18px rgba(0,0,0,0.6), 0 2px 4px rgba(0,0,0,0.5)",
+                    }}
+                  />
+
+                  {/* Left half */}
                   <motion.div
                     className="absolute inset-0 rounded-full overflow-hidden"
                     animate={
-                      phase === "breaking" || phase === "opening" || phase === "done"
-                        ? { x: -10, rotate: -8, opacity: 0.85 }
-                        : { x: 0, rotate: 0, opacity: 1 }
+                      phase === "breaking" || opened
+                        ? { x: -14, y: 4, rotate: -12, opacity: 0.92 }
+                        : { x: 0, y: 0, rotate: 0, opacity: 1 }
                     }
-                    transition={{ duration: 0.5, ease: "easeOut", delay: 0.25 }}
-                    style={{
-                      clipPath: "polygon(0 0, 50% 0, 50% 100%, 0 100%)",
-                    }}
+                    transition={{ duration: 0.55, ease: [0.5, 0, 0.3, 1], delay: 0.3 }}
+                    style={{ clipPath: "polygon(0 0, 52% 0, 48% 100%, 0 100%)" }}
                   >
-                    <div
-                      className="absolute inset-0 rounded-full"
-                      style={{
-                        background:
-                          "radial-gradient(circle at 35% 30%, #e85a48 0%, #b8281e 55%, #6e1410 100%)",
-                        boxShadow:
-                          "inset -4px -4px 10px rgba(0,0,0,0.45), inset 3px 3px 6px rgba(255,200,180,0.35)",
-                      }}
-                    />
+                    <SealFace side="left" />
                   </motion.div>
+
+                  {/* Right half */}
                   <motion.div
                     className="absolute inset-0 rounded-full overflow-hidden"
                     animate={
-                      phase === "breaking" || phase === "opening" || phase === "done"
-                        ? { x: 10, rotate: 8, opacity: 0.85 }
-                        : { x: 0, rotate: 0, opacity: 1 }
+                      phase === "breaking" || opened
+                        ? { x: 14, y: 4, rotate: 12, opacity: 0.92 }
+                        : { x: 0, y: 0, rotate: 0, opacity: 1 }
                     }
-                    transition={{ duration: 0.5, ease: "easeOut", delay: 0.25 }}
-                    style={{
-                      clipPath: "polygon(50% 0, 100% 0, 100% 100%, 50% 100%)",
-                    }}
+                    transition={{ duration: 0.55, ease: [0.5, 0, 0.3, 1], delay: 0.3 }}
+                    style={{ clipPath: "polygon(48% 0, 100% 0, 100% 100%, 52% 100%)" }}
                   >
-                    <div
-                      className="absolute inset-0 rounded-full"
-                      style={{
-                        background:
-                          "radial-gradient(circle at 65% 30%, #e85a48 0%, #b8281e 55%, #6e1410 100%)",
-                        boxShadow:
-                          "inset 4px -4px 10px rgba(0,0,0,0.45), inset -3px 3px 6px rgba(255,200,180,0.35)",
-                      }}
-                    />
+                    <SealFace side="right" />
                   </motion.div>
+
+                  {/* Crack line flash */}
+                  <motion.div
+                    className="absolute inset-y-2 left-1/2 -translate-x-1/2 w-[2px] rounded-full pointer-events-none"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, transparent, rgba(255,255,255,0.85), transparent)",
+                    }}
+                    initial={{ opacity: 0, scaleY: 0 }}
+                    animate={
+                      phase === "breaking" || opened
+                        ? { opacity: [0, 1, 0], scaleY: [0, 1, 1] }
+                        : { opacity: 0, scaleY: 0 }
+                    }
+                    transition={{ duration: 0.45, delay: 0.18 }}
+                  />
 
                   {/* Monogram */}
                   <div
-                    className="absolute inset-0 flex items-center justify-center font-display text-white/90 text-xl pointer-events-none select-none"
-                    style={{ textShadow: "0 1px 2px rgba(0,0,0,0.4)" }}
+                    className="absolute inset-0 flex items-center justify-center font-display text-[22px] pointer-events-none select-none"
+                    style={{
+                      color: "rgba(20,20,22,0.75)",
+                      textShadow:
+                        "0 1px 0 rgba(255,255,255,0.35), 0 -1px 1px rgba(0,0,0,0.4)",
+                      letterSpacing: "0.02em",
+                    }}
                   >
                     CO
                   </div>
@@ -339,11 +352,11 @@ export function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
 
             {/* Hint */}
             <motion.p
-              className="absolute left-1/2 -translate-x-1/2 mt-12 text-xs uppercase tracking-[0.35em] text-white/80 whitespace-nowrap"
+              className="absolute left-1/2 -translate-x-1/2 mt-14 text-[10px] uppercase tracking-[0.4em] text-white/55 whitespace-nowrap"
               style={{ top: "100%" }}
               initial={{ opacity: 0 }}
               animate={{ opacity: phase === "idle" ? 1 : 0 }}
-              transition={{ delay: 0.6, duration: 0.6 }}
+              transition={{ delay: 0.5, duration: 0.6 }}
             >
               Tap the seal to open
             </motion.p>
@@ -351,5 +364,38 @@ export function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
         </motion.div>
       )}
     </AnimatePresence>
+  );
+}
+
+function SealFace({ side }: { side: "left" | "right" }) {
+  const lightX = side === "left" ? "32%" : "68%";
+  return (
+    <div
+      className="absolute inset-0 rounded-full"
+      style={{
+        background: `radial-gradient(circle at ${lightX} 28%, #f4f5f7 0%, #c8ccd3 30%, #8c9099 65%, #4a4d54 100%)`,
+        boxShadow:
+          side === "left"
+            ? "inset -5px -5px 12px rgba(0,0,0,0.5), inset 4px 4px 8px rgba(255,255,255,0.45)"
+            : "inset 5px -5px 12px rgba(0,0,0,0.5), inset -4px 4px 8px rgba(255,255,255,0.45)",
+      }}
+    >
+      {/* speckled wax texture */}
+      <div
+        className="absolute inset-0 rounded-full opacity-30 mix-blend-overlay"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.6' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
+        }}
+      />
+      {/* outer rim */}
+      <div
+        className="absolute inset-[4px] rounded-full pointer-events-none"
+        style={{
+          boxShadow:
+            "inset 0 0 0 1.5px rgba(255,255,255,0.18), inset 0 0 0 2.5px rgba(0,0,0,0.25)",
+        }}
+      />
+    </div>
   );
 }
