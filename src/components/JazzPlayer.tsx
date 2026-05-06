@@ -24,23 +24,24 @@ export function JazzPlayer() {
     audioRef.current = audio;
     setReady(true);
 
-    const start = () => {
-      audio
-        .play()
-        .then(() => setPlaying(true))
-        .catch(() => {});
-      window.removeEventListener("pointerdown", start);
-      window.removeEventListener("keydown", start);
-      window.removeEventListener("touchstart", start);
-    };
-    window.addEventListener("pointerdown", start, { once: true });
-    window.addEventListener("keydown", start, { once: true });
-    window.addEventListener("touchstart", start, { once: true });
+    // Try to autoplay immediately (works if browser allows it)
+    audio
+      .play()
+      .then(() => setPlaying(true))
+      .catch(() => {
+        // Blocked by browser autoplay policy — start on first user interaction
+        const start = () => {
+          audio
+            .play()
+            .then(() => setPlaying(true))
+            .catch(() => {});
+        };
+        window.addEventListener("pointerdown", start, { once: true });
+        window.addEventListener("keydown", start, { once: true });
+        window.addEventListener("touchstart", start, { once: true });
+      });
 
     return () => {
-      window.removeEventListener("pointerdown", start);
-      window.removeEventListener("keydown", start);
-      window.removeEventListener("touchstart", start);
       audio.pause();
       audio.src = "";
       audioRef.current = null;
