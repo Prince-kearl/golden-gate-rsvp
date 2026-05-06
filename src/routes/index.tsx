@@ -182,10 +182,11 @@ function Landing() {
             <div className="md:col-span-3 min-h-[280px] md:min-h-[360px]">
               <iframe
                 title="Casa 1715 location"
-                src="https://www.openstreetmap.org/export/embed.html?bbox=-0.2200%2C5.5600%2C-0.1400%2C5.6300&layer=mapnik&marker=5.5950,-0.1800"
+                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDrddv4x_Qvf_77eJE2HBAG2paNDW3swbs&q=Casa+1715+Accra"
                 className="w-full h-full border-0"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
               />
             </div>
           </div>
