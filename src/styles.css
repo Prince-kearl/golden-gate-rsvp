@@ -33,6 +33,8 @@
   --color-surface: var(--surface);
   --color-surface-elevated: var(--surface-elevated);
   --color-ink: var(--ink);
+  --color-silver: var(--silver);
+  --color-silver-muted: var(--silver-muted);
   --font-display: "Playfair Display", serif;
   --font-sans: "Inter", sans-serif;
 }
