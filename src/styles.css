@@ -98,6 +98,19 @@
   .bg-surface-elevated { background-color: var(--surface-elevated); }
   .bg-ink { background-color: var(--ink); }
   .text-ink { color: var(--ink); }
+  .text-silver { color: var(--silver); }
+  .text-silver-muted { color: var(--silver-muted); }
+  .bg-silver { background-color: var(--silver); }
+  .border-silver { border-color: var(--silver); }
+  .bg-gradient-silver { background-image: var(--gradient-silver); }
+  .text-gradient-silver {
+    background-image: var(--gradient-silver);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .ring-silver { box-shadow: 0 0 0 1px oklch(0.85 0.005 250 / 0.3); }
+  .shadow-silver { box-shadow: var(--shadow-silver); }
   .ring-border { box-shadow: 0 0 0 1px var(--color-border); }
   .shadow-card { box-shadow: var(--shadow-card); }
   .shadow-soft { box-shadow: var(--shadow-soft); }
