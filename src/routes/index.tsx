@@ -137,7 +137,7 @@ function Landing() {
         </div>
 
         {/* CTA */}
-        <div className="mt-8 rounded-2xl bg-ink text-card-foreground p-8 md:p-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div className="mt-8 rounded-2xl bg-ink text-card-foreground p-8 md:p-12 flex flex-col items-center text-center gap-6">
           <div>
             <p className="text-[10px] uppercase tracking-mono text-card-foreground/60 mb-3">RSVP by May 12, 2026</p>
             <h2 className="font-display text-3xl md:text-4xl mb-2">Ready to celebrate?</h2>
