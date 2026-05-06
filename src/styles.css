@@ -77,24 +77,20 @@
 @layer base {
   * { border-color: var(--color-border); }
   body {
-    background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     position: relative;
     min-height: 100vh;
-  }
-  /* Grainy dark background image */
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
+    background-color: var(--color-background);
     background-image: url("/bg-grain.png");
     background-size: cover;
-    background-position: center;
+    background-position: center center;
     background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+  @media (max-width: 768px) {
+    body { background-attachment: scroll; }
   }
   body > * { position: relative; z-index: 2; }
   h1, h2, h3, h4, h5, h6 { letter-spacing: -0.02em; }
