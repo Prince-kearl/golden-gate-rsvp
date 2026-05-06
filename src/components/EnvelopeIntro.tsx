@@ -155,8 +155,8 @@ export function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
                     You're Invited
                   </p>
                   <p
-                    className="font-display text-3xl md:text-4xl"
-                    style={{ color: "#1a1a1c" }}
+                    className="font-display italic text-4xl md:text-5xl"
+                    style={{ color: "#1a1a1c", fontFamily: "'Great Vibes', 'Pinyon Script', 'Allura', cursive", letterSpacing: "0.01em" }}
                   >
                     Charles Osam
                   </p>
@@ -216,7 +216,7 @@ export function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
                 }}
                 initial={{ rotateX: 0 }}
                 animate={{ rotateX: opened ? -178 : 0 }}
-                transition={{ duration: 1.2, ease: [0.65, 0, 0.35, 1], delay: 0.15 }}
+                transition={{ duration: 1.1, ease: [0.65, 0, 0.35, 1], delay: 0.35 }}
               >
                 {/* Front face */}
                 <div
@@ -298,7 +298,7 @@ export function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
                         ? { x: -14, y: 4, rotate: -12, opacity: 0.92 }
                         : { x: 0, y: 0, rotate: 0, opacity: 1 }
                     }
-                    transition={{ duration: 0.55, ease: [0.5, 0, 0.3, 1], delay: 0.3 }}
+                    transition={{ duration: 0.5, ease: [0.5, 0, 0.3, 1] }}
                     style={{ clipPath: "polygon(0 0, 52% 0, 48% 100%, 0 100%)" }}
                   >
                     <SealFace side="left" />
@@ -312,7 +312,7 @@ export function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
                         ? { x: 14, y: 4, rotate: 12, opacity: 0.92 }
                         : { x: 0, y: 0, rotate: 0, opacity: 1 }
                     }
-                    transition={{ duration: 0.55, ease: [0.5, 0, 0.3, 1], delay: 0.3 }}
+                    transition={{ duration: 0.5, ease: [0.5, 0, 0.3, 1] }}
                     style={{ clipPath: "polygon(48% 0, 100% 0, 100% 100%, 52% 100%)" }}
                   >
                     <SealFace side="right" />
@@ -331,7 +331,7 @@ export function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
                         ? { opacity: [0, 1, 0], scaleY: [0, 1, 1] }
                         : { opacity: 0, scaleY: 0 }
                     }
-                    transition={{ duration: 0.45, delay: 0.18 }}
+                    transition={{ duration: 0.4 }}
                   />
 
                   {/* Monogram */}
