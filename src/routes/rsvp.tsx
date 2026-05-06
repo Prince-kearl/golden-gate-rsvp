@@ -147,7 +147,7 @@ function RsvpPage() {
 
             <div className="space-y-3">
               <Label className="text-xs uppercase tracking-widest text-muted-foreground">Attendance</Label>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="flex flex-col gap-2.5">
                 {options.map((opt) => {
                   const active = form.attendance === opt.v;
                   return (
@@ -155,14 +155,14 @@ function RsvpPage() {
                       key={opt.v}
                       type="button"
                       onClick={() => setForm({ ...form, attendance: opt.v })}
-                      className={`group relative rounded-xl p-3.5 border transition-all ${
+                      className={`flex items-center gap-3 rounded-2xl px-5 py-4 transition-all ${
                         active
-                          ? "border-gold bg-gold/10 shadow-[0_0_0_3px_oklch(0.82_0.13_84/0.1)]"
-                          : "border-border/60 bg-surface-elevated hover:border-border"
+                          ? "bg-card-foreground text-ink shadow-soft"
+                          : "bg-ink text-card-foreground/80 hover:text-card-foreground"
                       }`}
                     >
-                      <opt.icon className={`w-4 h-4 mb-2 ${active ? opt.accent : "text-muted-foreground"}`} />
-                      <p className={`text-sm font-medium text-left ${active ? "text-foreground" : "text-muted-foreground"}`}>{opt.label}</p>
+                      <opt.icon className="w-5 h-5 opacity-80" />
+                      <span className="text-base font-medium">{opt.label}</span>
                     </button>
                   );
                 })}
