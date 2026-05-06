@@ -33,6 +33,8 @@
   --color-surface: var(--surface);
   --color-surface-elevated: var(--surface-elevated);
   --color-ink: var(--ink);
+  --color-silver: var(--silver);
+  --color-silver-muted: var(--silver-muted);
   --font-display: "Playfair Display", serif;
   --font-sans: "Inter", sans-serif;
 }
@@ -63,8 +65,13 @@
   --border: oklch(1 0 0 / 0.08);
   --input: oklch(0.21 0.003 60);
   --ring: oklch(0.78 0.004 60);
+  /* Silver accent palette */
+  --silver: oklch(0.85 0.005 250);
+  --silver-muted: oklch(0.68 0.006 250);
+  --gradient-silver: linear-gradient(135deg, oklch(0.92 0.004 250), oklch(0.7 0.006 250) 50%, oklch(0.88 0.005 250));
   --shadow-card: 0 30px 80px -30px oklch(0 0 0 / 0.7), 0 12px 30px -12px oklch(0 0 0 / 0.5);
   --shadow-soft: 0 10px 30px -10px oklch(0 0 0 / 0.5);
+  --shadow-silver: 0 10px 30px -10px oklch(0.85 0.005 250 / 0.25);
 }
 
 .dark {
@@ -91,6 +98,19 @@
   .bg-surface-elevated { background-color: var(--surface-elevated); }
   .bg-ink { background-color: var(--ink); }
   .text-ink { color: var(--ink); }
+  .text-silver { color: var(--silver); }
+  .text-silver-muted { color: var(--silver-muted); }
+  .bg-silver { background-color: var(--silver); }
+  .border-silver { border-color: var(--silver); }
+  .bg-gradient-silver { background-image: var(--gradient-silver); }
+  .text-gradient-silver {
+    background-image: var(--gradient-silver);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .ring-silver { box-shadow: 0 0 0 1px oklch(0.85 0.005 250 / 0.3); }
+  .shadow-silver { box-shadow: var(--shadow-silver); }
   .ring-border { box-shadow: 0 0 0 1px var(--color-border); }
   .shadow-card { box-shadow: var(--shadow-card); }
   .shadow-soft { box-shadow: var(--shadow-soft); }

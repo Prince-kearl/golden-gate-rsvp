@@ -20,8 +20,8 @@ function Landing() {
       {/* Nav */}
       <header className="max-w-6xl mx-auto px-6 lg:px-10 py-6 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-md bg-ink text-card-foreground font-display font-bold text-sm flex items-center justify-center">co</div>
-          <span className="text-xs uppercase tracking-mono text-muted-foreground">Charles Osam</span>
+          <div className="w-9 h-9 rounded-md bg-gradient-silver text-ink font-display font-bold text-sm flex items-center justify-center shadow-silver">co</div>
+          <span className="text-xs uppercase tracking-mono text-silver-muted">Charles Osam</span>
         </div>
         <nav className="hidden md:flex items-center gap-8 text-xs uppercase tracking-mono text-muted-foreground">
           <a href="#event" className="hover:text-foreground transition">Event</a>
@@ -38,9 +38,9 @@ function Landing() {
       {/* Hero */}
       <section id="event" className="max-w-6xl mx-auto px-6 lg:px-10 pt-10 lg:pt-16 pb-20 grid lg:grid-cols-12 gap-12 items-center">
         <div className="lg:col-span-6 animate-fade-up">
-          <p className="text-xs uppercase tracking-mono text-muted-foreground mb-6">Private Invitation · 2026</p>
+          <p className="text-xs uppercase tracking-mono text-silver-muted mb-6">Private Invitation · 2026</p>
           <h1 className="font-display text-[clamp(3rem,7vw,6rem)] leading-[0.95] mb-6">
-            Charles<br />Osam<span className="italic font-normal">.</span>
+            <span className="text-gradient-silver">Charles</span><br /><span className="text-gradient-silver">Osam</span><span className="italic font-normal text-silver">.</span>
           </h1>
           <p className="text-base text-muted-foreground max-w-md mb-10 leading-relaxed">
             An elegant evening of celebration. Join us for a night to remember at Casa 1715.
@@ -62,24 +62,24 @@ function Landing() {
           <div className="relative aspect-square max-w-[520px] mx-auto">
             {/* Back card */}
             <div
-              className="absolute right-0 top-0 w-[68%] aspect-square rounded-[28px] bg-ink text-card-foreground p-8 shadow-card animate-float-tilt"
+              className="absolute right-0 top-0 w-[68%] aspect-square rounded-[28px] bg-ink text-card-foreground p-8 shadow-card ring-silver animate-float-tilt"
               style={{ ['--tilt' as any]: '6deg', transform: 'rotate(6deg)' }}
             >
               <div className="h-full flex flex-col items-end text-right">
-                <p className="font-display text-xl tracking-wide">CHARLES OSAM</p>
-                <p className="text-[10px] uppercase tracking-mono text-card-foreground/70 mt-1">Birthday Soirée</p>
-                <div className="mt-6 text-[11px] leading-relaxed text-card-foreground/80 space-y-0.5">
+                <p className="font-display text-xl tracking-wide text-gradient-silver">CHARLES OSAM</p>
+                <p className="text-[10px] uppercase tracking-mono text-silver-muted mt-1">Birthday Soirée</p>
+                <div className="mt-6 text-[11px] leading-relaxed text-silver/90 space-y-0.5">
                   <p>+233 539 456 478</p>
                   <p>casa1715.events</p>
                   <p>@charles.osam</p>
                 </div>
-                <p className="mt-auto text-[11px] text-card-foreground/80">Casa 1715 · Accra</p>
+                <p className="mt-auto text-[11px] text-silver-muted">Casa 1715 · Accra</p>
                 <div className="mt-3 grid grid-cols-5 grid-rows-5 gap-[3px] w-20 h-20">
                   {Array.from({ length: 25 }).map((_, i) => (
                     <div
                       key={i}
-                      className="bg-card-foreground/90 rounded-[1px]"
-                      style={{ opacity: ((i * 13 + 7) % 5) > 1 ? 1 : 0 }}
+                      className="bg-silver rounded-[1px]"
+                      style={{ opacity: ((i * 13 + 7) % 5) > 1 ? 0.9 : 0 }}
                     />
                   ))}
                 </div>
@@ -88,12 +88,12 @@ function Landing() {
 
             {/* Front card */}
             <div
-              className="absolute left-0 bottom-0 w-[72%] aspect-square rounded-[28px] bg-ink text-card-foreground p-8 shadow-card animate-float-tilt"
+              className="absolute left-0 bottom-0 w-[72%] aspect-square rounded-[28px] bg-ink text-card-foreground p-8 shadow-card ring-silver animate-float-tilt"
               style={{ ['--tilt' as any]: '-7deg', transform: 'rotate(-7deg)', animationDelay: '1.2s' }}
             >
               <div className="h-full flex flex-col">
                 <div className="flex-1 flex items-center justify-center">
-                  <span className="font-display text-[9rem] leading-none -tracking-[0.04em]">co</span>
+                  <span className="font-display text-[9rem] leading-none -tracking-[0.04em] text-gradient-silver">co</span>
                 </div>
                 <div>
                   <p className="font-display text-base tracking-wide">CHARLES OSAM</p>
