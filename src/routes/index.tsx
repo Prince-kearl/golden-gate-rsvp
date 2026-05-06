@@ -20,8 +20,8 @@ function Landing() {
       {/* Nav */}
       <header className="max-w-6xl mx-auto px-6 lg:px-10 py-6 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-md bg-ink text-card-foreground font-display font-bold text-sm flex items-center justify-center">co</div>
-          <span className="text-xs uppercase tracking-mono text-muted-foreground">Charles Osam</span>
+          <div className="w-9 h-9 rounded-md bg-gradient-silver text-ink font-display font-bold text-sm flex items-center justify-center shadow-silver">co</div>
+          <span className="text-xs uppercase tracking-mono text-silver-muted">Charles Osam</span>
         </div>
         <nav className="hidden md:flex items-center gap-8 text-xs uppercase tracking-mono text-muted-foreground">
           <a href="#event" className="hover:text-foreground transition">Event</a>
