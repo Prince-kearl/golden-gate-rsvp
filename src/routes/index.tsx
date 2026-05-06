@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Calendar, Clock, MapPin, ArrowUpRight, Sparkles, Phone, User } from "lucide-react";
+import { Calendar, Clock, MapPin, ArrowUpRight, Sparkles, Phone, User, Copy, Check } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import heroImg from "@/assets/hero.jpg";
 import { MotionBackground } from "@/components/MotionBackground";
