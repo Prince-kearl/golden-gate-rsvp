@@ -11,18 +11,18 @@ export function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
 
   useEffect(() => {
     if (phase === "breaking") {
-      const t = setTimeout(() => setPhase("opening"), 650);
+      const t = setTimeout(() => setPhase("opening"), 320);
       return () => clearTimeout(t);
     }
     if (phase === "opening") {
-      const t = setTimeout(() => setPhase("done"), 1300);
+      const t = setTimeout(() => setPhase("done"), 1000);
       return () => clearTimeout(t);
     }
     if (phase === "done") {
       const t = setTimeout(() => {
         setHidden(true);
         onComplete?.();
-      }, 1100);
+      }, 700);
       return () => clearTimeout(t);
     }
   }, [phase, onComplete]);
