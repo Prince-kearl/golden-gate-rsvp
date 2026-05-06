@@ -1,8 +1,10 @@
+import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Calendar, Clock, MapPin, ArrowUpRight, Sparkles, Phone, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroImg from "@/assets/hero.jpg";
 import { MotionBackground } from "@/components/MotionBackground";
+import { EnvelopeIntro } from "@/components/EnvelopeIntro";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -15,8 +17,24 @@ export const Route = createFileRoute("/")({
 });
 
 function Landing() {
+  const [showIntro, setShowIntro] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const seen = sessionStorage.getItem("envelope-intro-seen");
+    if (!seen) setShowIntro(true);
+  }, []);
+
+  const handleIntroComplete = () => {
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("envelope-intro-seen", "1");
+    }
+  };
+
   return (
-    <div className="min-h-screen text-foreground relative overflow-hidden" style={{ background: "linear-gradient(135deg, oklch(0.08 0 0) 0%, oklch(0.22 0 0) 50%, oklch(0.05 0 0) 100%)" }}>
+    <>
+      {showIntro && <EnvelopeIntro onComplete={handleIntroComplete} />}
+      <div className="min-h-screen text-foreground relative overflow-hidden" style={{ background: "linear-gradient(135deg, oklch(0.08 0 0) 0%, oklch(0.22 0 0) 50%, oklch(0.05 0 0) 100%)" }}>
       {/* Ambient backdrop */}
       <div className="absolute inset-0 bg-spot pointer-events-none" />
       <MotionBackground />
@@ -191,5 +209,6 @@ function Landing() {
         © 2026 Charles Osam · <Link to="/admin" className="hover:text-gold transition">Admin</Link>
       </footer>
     </div>
+    </>
   );
 }
