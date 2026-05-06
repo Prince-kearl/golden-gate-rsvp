@@ -28,7 +28,7 @@ function Landing() {
           <a href="#details" className="hover:text-foreground transition">Details</a>
           <Link to="/admin" className="hover:text-foreground transition">Admin</Link>
         </nav>
-        <Link to="/rsvp">
+        <Link to="/rsvp" className="gold-glow">
           <Button size="sm" className="bg-ink text-card-foreground hover:bg-ink/90 rounded-md px-5 text-xs uppercase tracking-mono">
             RSVP
           </Button>
