@@ -192,29 +192,31 @@ function DetailsStrip() {
           <Wrapper
             key={item.label}
             {...wrapperProps}
-            className="group block rounded-2xl bg-surface-elevated ring-border p-6 hover:bg-surface transition-all animate-fade-up"
+            className="group relative block rounded-2xl bg-ink text-card-foreground p-6 shadow-soft hover:bg-ink/90 transition-all animate-fade-up"
             style={{ animationDelay: `${i * 80}ms` }}
           >
-            <div className="flex items-center justify-between mb-8">
-              <div className="w-9 h-9 rounded-md bg-ink text-card-foreground flex items-center justify-center">
-                <item.icon className="w-4 h-4" />
+            <ArrowUpRight className="absolute top-5 right-5 w-4 h-4 text-card-foreground/60 group-hover:text-card-foreground transition" />
+            <div className="flex items-center gap-5">
+              <div className="shrink-0 w-12 h-12 rounded-lg bg-card-foreground/10 text-card-foreground flex items-center justify-center">
+                <item.icon className="w-5 h-5" />
               </div>
-              <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition" />
-            </div>
-            <p className="text-[10px] uppercase tracking-mono text-muted-foreground mb-1.5">{item.label}</p>
-            <div className="flex items-center justify-between gap-3">
-              <p className="font-display text-lg">{item.value}</p>
-              {isContact && (
-                <button
-                  type="button"
-                  onClick={handleCopy}
-                  aria-label="Copy phone number"
-                  className="inline-flex items-center gap-1.5 rounded-md bg-ink text-card-foreground hover:bg-ink/90 text-[10px] uppercase tracking-mono px-3 py-1.5 transition"
-                >
-                  {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
-                  {copied ? "Copied" : "Copy"}
-                </button>
-              )}
+              <div className="min-w-0 flex-1">
+                <p className="text-[10px] uppercase tracking-mono text-card-foreground/50 mb-1.5">{item.label}</p>
+                <div className="flex items-center justify-between gap-3">
+                  <p className="font-display text-xl truncate">{item.value}</p>
+                  {isContact && (
+                    <button
+                      type="button"
+                      onClick={handleCopy}
+                      aria-label="Copy phone number"
+                      className="relative z-10 inline-flex items-center gap-1.5 rounded-md bg-card-foreground/10 text-card-foreground hover:bg-card-foreground/20 text-[10px] uppercase tracking-mono px-3 py-1.5 transition"
+                    >
+                      {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                      {copied ? "Copied" : "Copy"}
+                    </button>
+                  )}
+                </div>
+              </div>
             </div>
           </Wrapper>
         );
