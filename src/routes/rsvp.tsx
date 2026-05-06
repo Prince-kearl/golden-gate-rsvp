@@ -177,7 +177,7 @@ function RsvpPage() {
               </div>
             </div>
 
-            <Button type="submit" disabled={loading} size="lg" className="w-full bg-gradient-gold text-primary-foreground hover:opacity-90 shadow-gold h-12 rounded-xl font-medium tracking-wide transition-all hover:scale-[1.01]">
+            <Button type="submit" disabled={loading} size="lg" className="w-full bg-card-foreground text-ink hover:bg-card-foreground/90 h-12 rounded-xl font-medium tracking-wide transition-all hover:scale-[1.01]">
               {loading ? "Submitting..." : "Confirm Attendance"}
             </Button>
             <p className="text-center text-[11px] text-muted-foreground">RSVP by May 12, 2026 · Invite admits 1 only</p>
