@@ -62,7 +62,7 @@ function Landing() {
           <div className="relative aspect-square max-w-[520px] mx-auto">
             {/* Back card */}
             <div
-              className="absolute right-0 top-0 w-[68%] aspect-square rounded-[28px] bg-ink text-card-foreground p-8 shadow-card animate-float-tilt"
+              className="absolute right-0 top-0 w-[68%] aspect-square rounded-[28px] bg-ink text-card-foreground p-8 shadow-card animate-float-tilt grain-surface"
               style={{ ['--tilt' as any]: '6deg', transform: 'rotate(6deg)' }}
             >
               <div className="h-full flex flex-col items-end text-right">
@@ -88,7 +88,7 @@ function Landing() {
 
             {/* Front card */}
             <div
-              className="absolute left-0 bottom-0 w-[72%] aspect-square rounded-[28px] bg-ink text-card-foreground p-8 shadow-card animate-float-tilt"
+              className="absolute left-0 bottom-0 w-[72%] aspect-square rounded-[28px] bg-ink text-card-foreground p-8 shadow-card animate-float-tilt grain-surface"
               style={{ ['--tilt' as any]: '-7deg', transform: 'rotate(-7deg)', animationDelay: '1.2s' }}
             >
               <div className="h-full flex flex-col">
@@ -110,7 +110,7 @@ function Landing() {
         <DetailsStrip />
 
         {/* Location card */}
-        <div className="mt-8 rounded-2xl bg-ink text-card-foreground overflow-hidden shadow-soft">
+        <div className="mt-8 rounded-2xl bg-ink text-card-foreground overflow-hidden shadow-soft grain-surface">
           <div className="grid md:grid-cols-5">
             <div className="md:col-span-2 p-8 md:p-10 flex flex-col justify-between gap-6">
               <div>
@@ -137,7 +137,7 @@ function Landing() {
         </div>
 
         {/* CTA */}
-        <div className="mt-8 rounded-2xl bg-ink text-card-foreground p-8 md:p-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div className="mt-8 rounded-2xl bg-ink text-card-foreground p-8 md:p-12 grain-surface flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div>
             <p className="text-[10px] uppercase tracking-mono text-card-foreground/60 mb-3">RSVP by May 12, 2026</p>
             <h2 className="font-display text-3xl md:text-4xl mb-2">Ready to celebrate?</h2>
