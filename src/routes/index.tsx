@@ -38,9 +38,9 @@ function Landing() {
       {/* Hero */}
       <section id="event" className="max-w-6xl mx-auto px-6 lg:px-10 pt-10 lg:pt-16 pb-20 grid lg:grid-cols-12 gap-12 items-center">
         <div className="lg:col-span-6 animate-fade-up">
-          <p className="text-xs uppercase tracking-mono text-muted-foreground mb-6">Private Invitation · 2026</p>
+          <p className="text-xs uppercase tracking-mono text-silver-muted mb-6">Private Invitation · 2026</p>
           <h1 className="font-display text-[clamp(3rem,7vw,6rem)] leading-[0.95] mb-6">
-            Charles<br />Osam<span className="italic font-normal">.</span>
+            <span className="text-gradient-silver">Charles</span><br /><span className="text-gradient-silver">Osam</span><span className="italic font-normal text-silver">.</span>
           </h1>
           <p className="text-base text-muted-foreground max-w-md mb-10 leading-relaxed">
             An elegant evening of celebration. Join us for a night to remember at Casa 1715.
