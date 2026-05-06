@@ -1,16 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Calendar, Clock, MapPin, ArrowUpRight, Sparkles, Phone, User, Copy, Check } from "lucide-react";
+import { Calendar, Clock, MapPin, ArrowUpRight, Phone, Copy, Check } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import heroImg from "@/assets/hero.jpg";
-import { MotionBackground } from "@/components/MotionBackground";
-import { EnvelopeIntro } from "@/components/EnvelopeIntro";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Charles Osam's Birthday Party — RSVP" },
+      { title: "Charles Osam's Birthday — RSVP" },
       { name: "description", content: "An elegant evening at Casa 1715. RSVP by May 12, 2026." },
     ],
   }),
@@ -18,119 +15,89 @@ export const Route = createFileRoute("/")({
 });
 
 function Landing() {
-  const [showIntro, setShowIntro] = useState(false);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const seen = sessionStorage.getItem("envelope-intro-seen");
-    if (!seen) setShowIntro(true);
-  }, []);
-
-  const handleIntroComplete = () => {
-    if (typeof window !== "undefined") {
-      sessionStorage.setItem("envelope-intro-seen", "1");
-    }
-  };
-
   return (
-    <>
-      {showIntro && <EnvelopeIntro onComplete={handleIntroComplete} />}
-      <div className="min-h-screen text-foreground relative overflow-hidden" style={{ background: "linear-gradient(135deg, oklch(0.08 0 0) 0%, oklch(0.22 0 0) 50%, oklch(0.05 0 0) 100%)" }}>
-      {/* Ambient backdrop */}
-      <div className="absolute inset-0 bg-spot pointer-events-none" />
-      <MotionBackground />
-      <div className="absolute inset-0 grid-pattern opacity-40 pointer-events-none [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]" />
-
+    <div className="min-h-screen bg-background text-foreground">
       {/* Nav */}
-      <header className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 py-6 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-gradient-gold flex items-center justify-center text-primary-foreground font-bold text-sm">CO</div>
-          <span className="font-medium tracking-tight">Charles Osam</span>
+      <header className="max-w-6xl mx-auto px-6 lg:px-10 py-6 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-md bg-ink text-card-foreground font-display font-bold text-sm flex items-center justify-center">co</div>
+          <span className="text-xs uppercase tracking-mono text-muted-foreground">Charles Osam</span>
         </div>
-        <nav className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
+        <nav className="hidden md:flex items-center gap-8 text-xs uppercase tracking-mono text-muted-foreground">
           <a href="#event" className="hover:text-foreground transition">Event</a>
           <a href="#details" className="hover:text-foreground transition">Details</a>
           <Link to="/admin" className="hover:text-foreground transition">Admin</Link>
         </nav>
         <Link to="/rsvp">
-          <Button size="sm" className="bg-foreground text-background hover:bg-foreground/90 rounded-full px-5">
-            RSVP <ArrowUpRight className="w-4 h-4 ml-1" />
+          <Button size="sm" className="bg-ink text-card-foreground hover:bg-ink/90 rounded-md px-5 text-xs uppercase tracking-mono">
+            RSVP
           </Button>
         </Link>
       </header>
 
-      {/* Hero — split */}
-      <section id="event" className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 pt-12 lg:pt-20 pb-24 grid lg:grid-cols-12 gap-10 items-center">
-        <div className="lg:col-span-7 animate-fade-up">
-          <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-gold mb-8">
-            <Sparkles className="w-3.5 h-3.5" /> Private Invitation · 2026
-          </div>
-          <h1 className="text-display text-[clamp(3rem,8vw,7.5rem)] mb-6">
-            CHARLES <br />
-            OSAM'S<span className="text-gold">.</span>
-            <br />
-            <span className="font-display italic font-normal text-gradient-gold tracking-normal">birthday</span>
+      {/* Hero */}
+      <section id="event" className="max-w-6xl mx-auto px-6 lg:px-10 pt-10 lg:pt-16 pb-20 grid lg:grid-cols-12 gap-12 items-center">
+        <div className="lg:col-span-6 animate-fade-up">
+          <p className="text-xs uppercase tracking-mono text-muted-foreground mb-6">Private Invitation · 2026</p>
+          <h1 className="font-display text-[clamp(3rem,7vw,6rem)] leading-[0.95] mb-6">
+            Charles<br />Osam<span className="italic font-normal">.</span>
           </h1>
-          <p className="text-base md:text-lg text-muted-foreground max-w-md mb-10 leading-relaxed">
+          <p className="text-base text-muted-foreground max-w-md mb-10 leading-relaxed">
             An elegant evening of celebration. Join us for a night to remember at Casa 1715.
           </p>
-
-          <div className="flex flex-wrap items-center gap-3 mb-10 text-sm">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface ring-border">
-              <Calendar className="w-3.5 h-3.5 text-gold" /> Saturday, May 16
-            </span>
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface ring-border">
-              <Clock className="w-3.5 h-3.5 text-gold" /> 8:00 PM
-            </span>
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface ring-border">
-              <MapPin className="w-3.5 h-3.5 text-gold" /> Casa 1715
-            </span>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-4">
+          <div className="flex items-center gap-4">
             <Link to="/rsvp">
-              <Button size="lg" className="bg-gradient-gold text-primary-foreground hover:opacity-90 shadow-gold rounded-full h-12 px-8 font-medium">
-                RSVP Now <ArrowUpRight className="w-4 h-4 ml-1" />
+              <Button size="lg" className="bg-ink text-card-foreground hover:bg-ink/90 rounded-md h-12 px-8 text-xs uppercase tracking-mono">
+                RSVP Now <ArrowUpRight className="w-4 h-4 ml-2" />
               </Button>
             </Link>
-            <a href="#details" className="text-sm text-muted-foreground hover:text-foreground transition inline-flex items-center gap-1">
+            <a href="#details" className="text-xs uppercase tracking-mono text-muted-foreground hover:text-foreground transition">
               View details
             </a>
           </div>
         </div>
 
-        {/* Right card */}
-        <div className="lg:col-span-5 animate-fade-up delay-200">
-          <div className="relative">
-            <div className="absolute -inset-4 bg-gradient-gold opacity-20 blur-3xl rounded-full" />
-            <div className="relative glass rounded-3xl p-3 shadow-elegant">
-              <div className="relative rounded-2xl overflow-hidden aspect-[4/5]">
-                <img src={heroImg} alt="Charles Osam birthday" className="absolute inset-0 w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-6">
-                  <div className="flex items-end justify-between">
-                    <div>
-                      <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">Hosted by</p>
-                      <p className="font-display text-xl">Lady Julia Konadu Osam</p>
-                    </div>
-                    <div className="w-10 h-10 rounded-full bg-gold/20 backdrop-blur flex items-center justify-center">
-                      <Sparkles className="w-4 h-4 text-gold" />
-                    </div>
-                  </div>
+        {/* Business cards */}
+        <div className="lg:col-span-6 relative animate-fade-up delay-200">
+          <div className="relative aspect-square max-w-[520px] mx-auto">
+            {/* Back card */}
+            <div
+              className="absolute right-0 top-0 w-[68%] aspect-square rounded-[28px] bg-ink text-card-foreground p-8 shadow-card animate-float-tilt"
+              style={{ ['--tilt' as any]: '6deg', transform: 'rotate(6deg)' }}
+            >
+              <div className="h-full flex flex-col items-end text-right">
+                <p className="font-display text-xl tracking-wide">CHARLES OSAM</p>
+                <p className="text-[10px] uppercase tracking-mono text-card-foreground/70 mt-1">Birthday Soirée</p>
+                <div className="mt-6 text-[11px] leading-relaxed text-card-foreground/80 space-y-0.5">
+                  <p>+233 539 456 478</p>
+                  <p>casa1715.events</p>
+                  <p>@charles.osam</p>
+                </div>
+                <p className="mt-auto text-[11px] text-card-foreground/80">Casa 1715 · Accra</p>
+                <div className="mt-3 grid grid-cols-5 grid-rows-5 gap-[3px] w-20 h-20">
+                  {Array.from({ length: 25 }).map((_, i) => (
+                    <div
+                      key={i}
+                      className="bg-card-foreground/90 rounded-[1px]"
+                      style={{ opacity: ((i * 13 + 7) % 5) > 1 ? 1 : 0 }}
+                    />
+                  ))}
                 </div>
               </div>
-              <div className="grid grid-cols-3 gap-2 p-3">
-                <div className="rounded-xl bg-surface-elevated p-3 text-center">
-                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Day</p>
-                  <p className="font-display text-lg mt-1">16</p>
+            </div>
+
+            {/* Front card */}
+            <div
+              className="absolute left-0 bottom-0 w-[72%] aspect-square rounded-[28px] bg-ink text-card-foreground p-8 shadow-card animate-float-tilt"
+              style={{ ['--tilt' as any]: '-7deg', transform: 'rotate(-7deg)', animationDelay: '1.2s' }}
+            >
+              <div className="h-full flex flex-col">
+                <div className="flex-1 flex items-center justify-center">
+                  <span className="font-display text-[9rem] leading-none -tracking-[0.04em]">co</span>
                 </div>
-                <div className="rounded-xl bg-surface-elevated p-3 text-center">
-                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Month</p>
-                  <p className="font-display text-lg mt-1">May</p>
-                </div>
-                <div className="rounded-xl bg-surface-elevated p-3 text-center">
-                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Time</p>
-                  <p className="font-display text-lg mt-1">8 PM</p>
+                <div>
+                  <p className="font-display text-base tracking-wide">CHARLES OSAM</p>
+                  <p className="text-[10px] uppercase tracking-mono text-card-foreground/70 mt-1">Sat · May 16 · 8 PM</p>
                 </div>
               </div>
             </div>
@@ -138,67 +105,56 @@ function Landing() {
         </div>
       </section>
 
-      {/* Details strip */}
-      <section id="details" className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 pb-24">
+      {/* Details */}
+      <section id="details" className="max-w-6xl mx-auto px-6 lg:px-10 pb-20">
         <DetailsStrip />
 
-
-        {/* Map */}
-        <div className="mt-10 rounded-3xl overflow-hidden ring-border bg-surface">
+        {/* Location card */}
+        <div className="mt-8 rounded-2xl bg-ink text-card-foreground overflow-hidden shadow-soft">
           <div className="grid md:grid-cols-5">
             <div className="md:col-span-2 p-8 md:p-10 flex flex-col justify-between gap-6">
               <div>
-                <p className="text-xs uppercase tracking-widest text-gold mb-3">Location</p>
-                <h3 className="font-display text-2xl md:text-3xl mb-3">Casa 1715</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
+                <p className="text-[10px] uppercase tracking-mono text-card-foreground/60 mb-3">Location</p>
+                <h3 className="font-display text-3xl mb-3">Casa 1715</h3>
+                <p className="text-sm text-card-foreground/70 leading-relaxed">
                   Find us on the map. Parking is available on-site. Arrive a few minutes early to settle in.
                 </p>
               </div>
+              <p className="text-[10px] uppercase tracking-mono text-card-foreground/50">Accra · Ghana</p>
             </div>
-            <div className="md:col-span-3 min-h-[280px] md:min-h-[360px] relative overflow-hidden bg-surface-elevated">
-              <div className="absolute inset-0 opacity-70 grid-pattern" />
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,hsl(var(--gold)/0.18),transparent_34%),linear-gradient(135deg,hsl(var(--surface-elevated)),hsl(var(--surface)))]" />
-              <div className="absolute left-[12%] right-[6%] top-[28%] h-4 rotate-[-14deg] rounded-full bg-border/60" />
-              <div className="absolute left-[4%] right-[16%] top-[58%] h-5 rotate-[18deg] rounded-full bg-border/50" />
-              <div className="absolute bottom-[-14%] left-[30%] h-[130%] w-5 rotate-[36deg] rounded-full bg-border/45" />
-              <div className="absolute top-6 right-6 rounded-full bg-background/70 px-3 py-1.5 text-xs uppercase tracking-widest text-muted-foreground ring-border backdrop-blur">
-                Accra
-              </div>
-              <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-3 text-center">
-                <div className="relative flex h-20 w-20 items-center justify-center rounded-full bg-gold/15 ring-1 ring-gold/30">
-                  <span className="absolute h-28 w-28 animate-ping rounded-full bg-gold/10" />
-                  <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-gradient-gold shadow-gold">
-                    <MapPin className="h-6 w-6 text-primary-foreground" />
-                  </div>
+            <div className="md:col-span-3 min-h-[280px] md:min-h-[340px] relative bg-card-foreground/5">
+              <div className="absolute inset-0 [background-image:linear-gradient(var(--color-card-foreground)/0.08_1px,transparent_1px),linear-gradient(90deg,var(--color-card-foreground)/0.08_1px,transparent_1px)] [background-size:32px_32px]" />
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-card-foreground text-ink flex items-center justify-center">
+                  <MapPin className="w-5 h-5" />
                 </div>
-                <div className="rounded-2xl bg-background/80 px-5 py-3 ring-border backdrop-blur">
-                  <p className="font-display text-xl">Casa 1715</p>
-                  <p className="text-xs uppercase tracking-widest text-muted-foreground">Event location</p>
+                <div className="rounded-md bg-card-foreground text-ink px-4 py-2">
+                  <p className="font-display text-base">Casa 1715</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="mt-10 rounded-3xl bg-gradient-surface ring-border p-8 md:p-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        {/* CTA */}
+        <div className="mt-8 rounded-2xl bg-ink text-card-foreground p-8 md:p-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div>
-            <p className="text-xs uppercase tracking-widest text-gold mb-3">RSVP by May 12, 2026</p>
+            <p className="text-[10px] uppercase tracking-mono text-card-foreground/60 mb-3">RSVP by May 12, 2026</p>
             <h2 className="font-display text-3xl md:text-4xl mb-2">Ready to celebrate?</h2>
-            <p className="text-sm text-muted-foreground">Invite admits 1 only. Confirm your attendance now.</p>
+            <p className="text-sm text-card-foreground/70">Invite admits 1 only. Confirm your attendance now.</p>
           </div>
           <Link to="/rsvp">
-            <Button size="lg" className="bg-gradient-gold text-primary-foreground hover:opacity-90 shadow-gold rounded-full h-12 px-8 font-medium">
-              Confirm Attendance <ArrowUpRight className="w-4 h-4 ml-1" />
+            <Button size="lg" className="bg-card-foreground text-ink hover:bg-card-foreground/90 rounded-md h-12 px-8 text-xs uppercase tracking-mono">
+              Confirm Attendance <ArrowUpRight className="w-4 h-4 ml-2" />
             </Button>
           </Link>
         </div>
       </section>
 
-      <footer className="relative z-10 border-t border-border/50 py-8 text-center text-xs text-muted-foreground">
-        © 2026 Charles Osam · <Link to="/admin" className="hover:text-gold transition">Admin</Link>
+      <footer className="border-t border-border py-8 text-center text-[10px] uppercase tracking-mono text-muted-foreground">
+        © 2026 Charles Osam · <Link to="/admin" className="hover:text-foreground transition">Admin</Link>
       </footer>
     </div>
-    </>
   );
 }
 
@@ -233,24 +189,29 @@ function DetailsStrip() {
         const Wrapper: any = item.href ? "a" : "div";
         const wrapperProps = item.href ? { href: item.href } : {};
         return (
-          <Wrapper key={item.label} {...wrapperProps} className="group block rounded-2xl bg-surface ring-border p-5 hover:bg-surface-elevated transition-all animate-fade-up" style={{ animationDelay: `${i * 80}ms` }}>
-            <div className="flex items-center justify-between mb-6">
-              <div className="w-9 h-9 rounded-lg bg-gold/10 flex items-center justify-center">
-                <item.icon className="w-4 h-4 text-gold" />
+          <Wrapper
+            key={item.label}
+            {...wrapperProps}
+            className="group block rounded-2xl bg-surface-elevated ring-border p-6 hover:bg-surface transition-all animate-fade-up"
+            style={{ animationDelay: `${i * 80}ms` }}
+          >
+            <div className="flex items-center justify-between mb-8">
+              <div className="w-9 h-9 rounded-md bg-ink text-card-foreground flex items-center justify-center">
+                <item.icon className="w-4 h-4" />
               </div>
-              <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-gold group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all" />
+              <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition" />
             </div>
-            <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">{item.label}</p>
+            <p className="text-[10px] uppercase tracking-mono text-muted-foreground mb-1.5">{item.label}</p>
             <div className="flex items-center justify-between gap-3">
-              <p className="font-medium">{item.value}</p>
+              <p className="font-display text-lg">{item.value}</p>
               {isContact && (
                 <button
                   type="button"
                   onClick={handleCopy}
                   aria-label="Copy phone number"
-                  className="inline-flex items-center gap-1.5 rounded-full bg-gold/10 hover:bg-gold/20 text-gold text-xs px-3 py-1.5 transition"
+                  className="inline-flex items-center gap-1.5 rounded-md bg-ink text-card-foreground hover:bg-ink/90 text-[10px] uppercase tracking-mono px-3 py-1.5 transition"
                 >
-                  {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                  {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
                   {copied ? "Copied" : "Copy"}
                 </button>
               )}
@@ -261,4 +222,3 @@ function DetailsStrip() {
     </div>
   );
 }
-
