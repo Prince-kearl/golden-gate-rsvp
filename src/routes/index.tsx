@@ -46,7 +46,7 @@ function Landing() {
             An elegant evening of celebration. Join us for a night to remember at Casa 1715.
           </p>
           <div className="flex items-center gap-4">
-            <Link to="/rsvp">
+            <Link to="/rsvp" className="gold-glow">
               <Button size="lg" className="bg-ink text-card-foreground hover:bg-ink/90 rounded-md h-12 px-8 text-xs uppercase tracking-mono">
                 RSVP Now <ArrowUpRight className="w-4 h-4 ml-2" />
               </Button>
