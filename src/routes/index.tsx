@@ -179,15 +179,27 @@ function Landing() {
                 Open in Google Maps <ArrowUpRight className="w-4 h-4" />
               </a>
             </div>
-            <div className="md:col-span-3 min-h-[280px] md:min-h-[360px]">
-              <iframe
-                title="Casa 1715 location"
-                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDrddv4x_Qvf_77eJE2HBAG2paNDW3swbs&q=Casa+1715+Accra"
-                className="w-full h-full border-0"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                allowFullScreen
-              />
+            <div className="md:col-span-3 min-h-[280px] md:min-h-[360px] relative overflow-hidden bg-surface-elevated">
+              <div className="absolute inset-0 opacity-70 grid-pattern" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,hsl(var(--gold)/0.18),transparent_34%),linear-gradient(135deg,hsl(var(--surface-elevated)),hsl(var(--surface)))]" />
+              <div className="absolute left-[12%] right-[6%] top-[28%] h-4 rotate-[-14deg] rounded-full bg-border/60" />
+              <div className="absolute left-[4%] right-[16%] top-[58%] h-5 rotate-[18deg] rounded-full bg-border/50" />
+              <div className="absolute bottom-[-14%] left-[30%] h-[130%] w-5 rotate-[36deg] rounded-full bg-border/45" />
+              <div className="absolute top-6 right-6 rounded-full bg-background/70 px-3 py-1.5 text-xs uppercase tracking-widest text-muted-foreground ring-border backdrop-blur">
+                Accra
+              </div>
+              <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-3 text-center">
+                <div className="relative flex h-20 w-20 items-center justify-center rounded-full bg-gold/15 ring-1 ring-gold/30">
+                  <span className="absolute h-28 w-28 animate-ping rounded-full bg-gold/10" />
+                  <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-gradient-gold shadow-gold">
+                    <MapPin className="h-6 w-6 text-primary-foreground" />
+                  </div>
+                </div>
+                <div className="rounded-2xl bg-background/80 px-5 py-3 ring-border backdrop-blur">
+                  <p className="font-display text-xl">Casa 1715</p>
+                  <p className="text-xs uppercase tracking-widest text-muted-foreground">Event location</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
