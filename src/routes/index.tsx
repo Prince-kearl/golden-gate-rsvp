@@ -62,24 +62,24 @@ function Landing() {
           <div className="relative aspect-square max-w-[520px] mx-auto">
             {/* Back card */}
             <div
-              className="absolute right-0 top-0 w-[68%] aspect-square rounded-[28px] bg-ink text-card-foreground p-8 shadow-card animate-float-tilt"
+              className="absolute right-0 top-0 w-[68%] aspect-square rounded-[28px] bg-ink text-card-foreground p-8 shadow-card ring-silver animate-float-tilt"
               style={{ ['--tilt' as any]: '6deg', transform: 'rotate(6deg)' }}
             >
               <div className="h-full flex flex-col items-end text-right">
-                <p className="font-display text-xl tracking-wide">CHARLES OSAM</p>
-                <p className="text-[10px] uppercase tracking-mono text-card-foreground/70 mt-1">Birthday Soirée</p>
-                <div className="mt-6 text-[11px] leading-relaxed text-card-foreground/80 space-y-0.5">
+                <p className="font-display text-xl tracking-wide text-gradient-silver">CHARLES OSAM</p>
+                <p className="text-[10px] uppercase tracking-mono text-silver-muted mt-1">Birthday Soirée</p>
+                <div className="mt-6 text-[11px] leading-relaxed text-silver/90 space-y-0.5">
                   <p>+233 539 456 478</p>
                   <p>casa1715.events</p>
                   <p>@charles.osam</p>
                 </div>
-                <p className="mt-auto text-[11px] text-card-foreground/80">Casa 1715 · Accra</p>
+                <p className="mt-auto text-[11px] text-silver-muted">Casa 1715 · Accra</p>
                 <div className="mt-3 grid grid-cols-5 grid-rows-5 gap-[3px] w-20 h-20">
                   {Array.from({ length: 25 }).map((_, i) => (
                     <div
                       key={i}
-                      className="bg-card-foreground/90 rounded-[1px]"
-                      style={{ opacity: ((i * 13 + 7) % 5) > 1 ? 1 : 0 }}
+                      className="bg-silver rounded-[1px]"
+                      style={{ opacity: ((i * 13 + 7) % 5) > 1 ? 0.9 : 0 }}
                     />
                   ))}
                 </div>
@@ -88,12 +88,12 @@ function Landing() {
 
             {/* Front card */}
             <div
-              className="absolute left-0 bottom-0 w-[72%] aspect-square rounded-[28px] bg-ink text-card-foreground p-8 shadow-card animate-float-tilt"
+              className="absolute left-0 bottom-0 w-[72%] aspect-square rounded-[28px] bg-ink text-card-foreground p-8 shadow-card ring-silver animate-float-tilt"
               style={{ ['--tilt' as any]: '-7deg', transform: 'rotate(-7deg)', animationDelay: '1.2s' }}
             >
               <div className="h-full flex flex-col">
                 <div className="flex-1 flex items-center justify-center">
-                  <span className="font-display text-[9rem] leading-none -tracking-[0.04em]">co</span>
+                  <span className="font-display text-[9rem] leading-none -tracking-[0.04em] text-gradient-silver">co</span>
                 </div>
                 <div>
                   <p className="font-display text-base tracking-wide">CHARLES OSAM</p>
