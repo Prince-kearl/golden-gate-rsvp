@@ -65,8 +65,13 @@
   --border: oklch(1 0 0 / 0.08);
   --input: oklch(0.21 0.003 60);
   --ring: oklch(0.78 0.004 60);
+  /* Silver accent palette */
+  --silver: oklch(0.85 0.005 250);
+  --silver-muted: oklch(0.68 0.006 250);
+  --gradient-silver: linear-gradient(135deg, oklch(0.92 0.004 250), oklch(0.7 0.006 250) 50%, oklch(0.88 0.005 250));
   --shadow-card: 0 30px 80px -30px oklch(0 0 0 / 0.7), 0 12px 30px -12px oklch(0 0 0 / 0.5);
   --shadow-soft: 0 10px 30px -10px oklch(0 0 0 / 0.5);
+  --shadow-silver: 0 10px 30px -10px oklch(0.85 0.005 250 / 0.25);
 }
 
 .dark {
