@@ -3,6 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Calendar, Clock, MapPin, ArrowUpRight, Phone, Copy, Check } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { EnvelopeIntro } from "@/components/EnvelopeIntro";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -17,6 +18,7 @@ export const Route = createFileRoute("/")({
 function Landing() {
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <EnvelopeIntro />
       {/* Nav */}
       <header className="max-w-6xl mx-auto px-6 lg:px-10 py-6 flex items-center justify-between">
         <div className="flex items-center gap-3">
