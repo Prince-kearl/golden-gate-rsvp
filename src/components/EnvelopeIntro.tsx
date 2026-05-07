@@ -9,10 +9,12 @@ const STORAGE_KEY = "envelope-opened";
 
 export function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
   const [phase, setPhase] = useState<"idle" | "breaking" | "opening" | "done">("idle");
-  const [hidden, setHidden] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return window.sessionStorage.getItem(STORAGE_KEY) === "1";
-  });
+  const [hidden, setHidden] = useState(true);
+
+  useEffect(() => {
+    const opened = typeof window !== "undefined" && window.sessionStorage.getItem(STORAGE_KEY) === "1";
+    if (!opened) setHidden(false);
+  }, []);
 
   const finish = () => {
     if (typeof window !== "undefined") {
