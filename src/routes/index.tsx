@@ -193,7 +193,7 @@ function DetailsStrip() {
 
   const items = [
     { icon: Calendar, label: "Date", value: "Saturday, May 16", href: undefined as string | undefined },
-    { icon: Clock, label: "Time", value: "7:30 PM onwards", href: undefined as string | undefined },
+    { icon: Clock, label: "Time", value: "7:30 PM", href: undefined as string | undefined },
     { icon: Phone, label: "Contact", value: phoneDisplay, href: `tel:${phoneRaw}` },
   ];
 
