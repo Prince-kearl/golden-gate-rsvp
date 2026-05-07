@@ -26,15 +26,15 @@ export function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
 
   useEffect(() => {
     if (phase === "breaking") {
-      const t = setTimeout(() => setPhase("opening"), 320);
+      const t = setTimeout(() => setPhase("opening"), 550);
       return () => clearTimeout(t);
     }
     if (phase === "opening") {
-      const t = setTimeout(() => setPhase("done"), 1000);
+      const t = setTimeout(() => setPhase("done"), 1500);
       return () => clearTimeout(t);
     }
     if (phase === "done") {
-      const t = setTimeout(finish, 700);
+      const t = setTimeout(finish, 600);
       return () => clearTimeout(t);
     }
   }, [phase]);
@@ -253,10 +253,17 @@ export function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
 
                 {/* Silver wax seal */}
                 <motion.button
+                  type="button"
                   onPointerDown={handleOpen}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      handleOpen();
+                    }
+                  }}
                   disabled={phase !== "idle"}
                   aria-label="Open envelope"
-                  className="absolute left-1/2 -translate-x-1/2 rounded-full touch-manipulation"
+                  className="absolute left-1/2 -translate-x-1/2 rounded-full touch-manipulation outline-none focus-visible:ring-4 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
                   style={{
                     top: "calc(28% - 14px)",
                     width: "120px",
