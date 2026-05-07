@@ -8,7 +8,7 @@ import { EnvelopeIntro } from "@/components/EnvelopeIntro";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Charles Osam's Birthday — RSVP" },
+      { title: "Charles Osam's Birthday Rendezvous — RSVP" },
       { name: "description", content: "An elegant evening at Casa 1715. RSVP by May 12, 2026." },
     ],
   }),
@@ -69,7 +69,7 @@ function Landing() {
             >
               <div className="h-full flex flex-col items-end text-right">
                 <p className="font-display text-xl tracking-wide text-gradient-silver">CHARLES OSAM</p>
-                <p className="text-[10px] uppercase tracking-mono text-silver-muted mt-1">Birthday Soirée</p>
+                <p className="text-[10px] uppercase tracking-mono text-silver-muted mt-1">Birthday Rendezvous</p>
                 <div className="mt-6 text-[11px] leading-relaxed text-silver/90 space-y-0.5">
                   <p>+233 539 456 478</p>
                   <p>casa1715.events</p>
@@ -99,7 +99,7 @@ function Landing() {
                 </div>
                 <div>
                   <p className="font-display text-base tracking-wide">CHARLES OSAM</p>
-                  <p className="text-[10px] uppercase tracking-mono text-card-foreground/70 mt-1">Sat · May 16 · 8 PM</p>
+                  <p className="text-[10px] uppercase tracking-mono text-card-foreground/70 mt-1">Sat · May 16 · 7:30 PM</p>
                 </div>
               </div>
             </div>
@@ -190,7 +190,7 @@ function DetailsStrip() {
 
   const items = [
     { icon: Calendar, label: "Date", value: "Saturday, May 16", href: undefined as string | undefined },
-    { icon: Clock, label: "Time", value: "8:00 PM onwards", href: undefined as string | undefined },
+    { icon: Clock, label: "Time", value: "7:30 PM onwards", href: undefined as string | undefined },
     { icon: Phone, label: "Contact", value: phoneDisplay, href: `tel:${phoneRaw}` },
   ];
 

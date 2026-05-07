@@ -55,7 +55,7 @@ function SuccessPage() {
               <div className="grid grid-cols-3 gap-4">
                 {[
                   { icon: Calendar, label: "Date", value: "May 16" },
-                  { icon: Clock, label: "Time", value: "8:00 PM" },
+                  { icon: Clock, label: "Time", value: "7:30 PM" },
                   { icon: MapPin, label: "Venue", value: "Casa 1715" },
                 ].map((d) => (
                   <div key={d.label} className="text-center">

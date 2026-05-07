@@ -13,7 +13,7 @@ import { z } from "zod";
 export const Route = createFileRoute("/rsvp")({
   head: () => ({
     meta: [
-      { title: "RSVP — Charles Osam's Birthday" },
+      { title: "RSVP — Charles Osam's Birthday Rendezvous" },
       { name: "description", content: "Confirm your attendance for Charles Osam's birthday party." },
     ],
   }),
@@ -95,7 +95,7 @@ function RsvpPage() {
             <Sparkles className="w-3.5 h-3.5" /> RSVP
           </div>
           <h1 className="font-display text-4xl md:text-5xl mb-3">Confirm Your Attendance</h1>
-          <p className="text-sm text-muted-foreground">Saturday, May 16 · 8:00 PM · Casa 1715</p>
+          <p className="text-sm text-muted-foreground">Saturday, May 16 · 7:30 PM · Casa 1715</p>
         </div>
 
         {!isClosed && (
