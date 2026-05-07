@@ -117,9 +117,9 @@ function Landing() {
             <div className="md:col-span-2 p-8 md:p-10 flex flex-col justify-between gap-6">
               <div>
                 <p className="text-[10px] uppercase tracking-mono text-card-foreground/60 mb-3">Location</p>
-                <h3 className="font-display text-3xl mb-3">Casa 1715</h3>
+                <h3 className="font-display text-3xl mb-3">Casa 1715 Steakhouse</h3>
                 <p className="text-sm text-card-foreground/70 leading-relaxed">
-                  Find us on the map. Parking is available on-site. Arrive a few minutes early to settle in.
+                  Next to Cafe Claire, E. Legon. Parking is available on-site. Arrive a few minutes early to settle in.
                 </p>
               </div>
               <p className="text-[10px] uppercase tracking-mono text-card-foreground/50">Accra · Ghana</p>
@@ -130,8 +130,9 @@ function Landing() {
                 <div className="w-12 h-12 rounded-full bg-card-foreground text-ink flex items-center justify-center">
                   <MapPin className="w-5 h-5" />
                 </div>
-                <div className="rounded-md bg-card-foreground text-ink px-4 py-2">
-                  <p className="font-display text-base">Casa 1715</p>
+                <div className="rounded-md bg-card-foreground text-ink px-4 py-2 text-center">
+                  <p className="font-display text-base">Casa 1715 Steakhouse</p>
+                  <p className="text-[10px] uppercase tracking-mono opacity-70">Next to Cafe Claire · E. Legon</p>
                 </div>
               </div>
             </div>
