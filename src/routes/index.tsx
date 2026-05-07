@@ -42,7 +42,7 @@ function Landing() {
         <div className="lg:col-span-6 animate-fade-up">
           <p className="text-xs uppercase tracking-mono text-silver-muted mb-6">Private Invitation · 2026</p>
           <h1 className="text-[clamp(3.5rem,9vw,7rem)] leading-[0.95] mb-6 italic text-gradient-silver" style={{ fontFamily: "'Great Vibes', cursive", fontWeight: 400 }}>
-            Charles Osam<span className="text-silver">.</span>
+            <span className="block lg:inline">Charles</span> <span className="block lg:inline">Osam<span className="text-silver">.</span></span>
           </h1>
           <p className="text-base text-muted-foreground max-w-md mb-10 leading-relaxed">
             An elegant evening of celebration. Join us for a night to remember at Casa 1715.
