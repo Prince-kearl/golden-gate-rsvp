@@ -124,23 +124,8 @@ function Landing() {
               </div>
               <p className="text-[10px] uppercase tracking-mono text-card-foreground/50">Accra · Ghana</p>
             </div>
-            <div className="md:col-span-3 min-h-[280px] md:min-h-[340px] relative bg-card-foreground/5">
-              <iframe
-                title="Casa 1715 Steakhouse map"
-                src="https://www.google.com/maps?q=Casa+1715+Steakhouse+East+Legon+Accra&output=embed"
-                className="absolute inset-0 w-full h-full border-0 grayscale-[0.3] contrast-110"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                allowFullScreen
-              />
-              <a
-                href="https://www.google.com/maps/search/?api=1&query=Casa+1715+Steakhouse+East+Legon+Accra"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-md bg-card-foreground text-ink px-3 py-2 text-[10px] uppercase tracking-mono shadow-soft hover:opacity-90 transition"
-              >
-                <MapPin className="w-3.5 h-3.5" /> Open in Maps
-              </a>
+            <div className="md:col-span-3 flex flex-col">
+              <LocationMap />
             </div>
           </div>
         </div>
