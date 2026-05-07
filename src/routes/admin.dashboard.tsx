@@ -245,8 +245,50 @@ function Dashboard() {
           </div>
         </aside>
 
+        {/* Mobile top bar */}
+        <div className="lg:hidden fixed top-0 inset-x-0 z-40 flex items-center justify-between px-4 h-14 bg-surface/80 backdrop-blur-md border-b border-border/50">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-gradient-gold flex items-center justify-center text-primary-foreground font-bold text-xs">CO</div>
+            <div className="leading-tight">
+              <p className="text-xs font-medium">Charles Osam</p>
+              <p className="text-[9px] uppercase tracking-widest text-muted-foreground">Admin</p>
+            </div>
+          </div>
+          <button onClick={signOut} className="p-2 rounded-lg hover:bg-surface text-muted-foreground hover:text-foreground transition" aria-label="Sign out">
+            <LogOut className="w-4 h-4" />
+          </button>
+        </div>
+
+        {/* Mobile bottom nav */}
+        <nav className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-surface/90 backdrop-blur-md border-t border-border/50 px-2 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
+          <div className="grid grid-cols-4 gap-1">
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => setView(item.id)}
+                className={`flex flex-col items-center justify-center gap-1 py-2 rounded-xl text-[10px] transition-all ${
+                  view === item.id ? "text-gold bg-gold/10" : "text-muted-foreground hover:text-foreground"
+                }`}
+                aria-label={item.label}
+                aria-current={view === item.id ? "page" : undefined}
+              >
+                <item.icon className="w-5 h-5" />
+                <span className="font-medium tracking-wide">{item.label}</span>
+              </button>
+            ))}
+            <button
+              onClick={exportCsv}
+              className="flex flex-col items-center justify-center gap-1 py-2 rounded-xl text-[10px] text-muted-foreground hover:text-foreground transition-all"
+              aria-label="Export CSV"
+            >
+              <FileDown className="w-5 h-5" />
+              <span className="font-medium tracking-wide">Export</span>
+            </button>
+          </div>
+        </nav>
+
         {/* Main */}
-        <main className="flex-1 min-w-0">
+        <main className="flex-1 min-w-0 pt-14 lg:pt-0 pb-24 lg:pb-0">
           <header className="px-6 lg:px-10 py-6 flex items-center justify-between border-b border-border/50">
             <div>
               <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">{view === "overview" ? "Dashboard" : view === "guests" ? "Guests" : "Admins"}</p>
