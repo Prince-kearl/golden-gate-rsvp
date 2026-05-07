@@ -265,15 +265,17 @@ export function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
                   aria-label="Open envelope"
                   className="absolute left-1/2 -translate-x-1/2 rounded-full touch-manipulation outline-none focus-visible:ring-4 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
                   style={{
-                    top: "calc(28% - 14px)",
-                    width: "120px",
-                    height: "120px",
+                    top: "calc(28% - 40px)",
+                    width: "172px",
+                    height: "172px",
                     cursor: phase === "idle" ? "pointer" : "default",
                     backfaceVisibility: "hidden",
                     background: "transparent",
                     border: "none",
-                    padding: "14px",
+                    padding: "40px",
                     WebkitTapHighlightColor: "transparent",
+                    zIndex: 40,
+                    pointerEvents: phase === "idle" ? "auto" : "none",
                   }}
                   whileHover={phase === "idle" ? { scale: 1.05 } : {}}
                   whileTap={phase === "idle" ? { scale: 0.96 } : {}}
