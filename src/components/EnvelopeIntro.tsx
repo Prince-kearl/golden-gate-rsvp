@@ -83,10 +83,10 @@ export function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
             <motion.div
               animate={
                 phase === "idle"
-                  ? { y: [0, -6, 0], rotateX: [4, 6, 4] }
+                  ? { y: [0, -6, 0] }
                   : phase === "done"
                     ? { y: 100, opacity: 0, scale: 0.9 }
-                    : { y: 0, rotateX: 4 }
+                    : { y: 0 }
               }
               transition={
                 phase === "idle"
@@ -253,19 +253,20 @@ export function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
 
                 {/* Silver wax seal */}
                 <motion.button
-                  onClick={handleOpen}
+                  onPointerDown={handleOpen}
                   disabled={phase !== "idle"}
                   aria-label="Open envelope"
-                  className="absolute left-1/2 -translate-x-1/2 rounded-full"
+                  className="absolute left-1/2 -translate-x-1/2 rounded-full touch-manipulation"
                   style={{
-                    top: "28%",
-                    width: "92px",
-                    height: "92px",
+                    top: "calc(28% - 14px)",
+                    width: "120px",
+                    height: "120px",
                     cursor: phase === "idle" ? "pointer" : "default",
                     backfaceVisibility: "hidden",
                     background: "transparent",
                     border: "none",
-                    padding: 0,
+                    padding: "14px",
+                    WebkitTapHighlightColor: "transparent",
                   }}
                   whileHover={phase === "idle" ? { scale: 1.05 } : {}}
                   whileTap={phase === "idle" ? { scale: 0.96 } : {}}
