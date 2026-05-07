@@ -136,7 +136,7 @@ function Landing() {
                 </div>
               </div>
               <a
-                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Cafe Claire East Legon Accra")}`}
+                href="https://maps.app.goo.gl/s8cfSxQWGkpiPAiR9"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="self-start inline-flex items-center gap-2 rounded-md bg-card-foreground text-ink px-4 py-2.5 text-[10px] uppercase tracking-mono shadow-soft hover:opacity-90 transition"
