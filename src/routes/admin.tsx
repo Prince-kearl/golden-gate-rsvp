@@ -209,10 +209,10 @@ function AdminLogin() {
               </div>
             )}
 
-            <Button type="submit" disabled={loading} className="w-full bg-gradient-gold text-primary-foreground hover:opacity-90 shadow-gold h-11 rounded-xl font-medium">
+            <Button type="submit" disabled={loading} className="w-full bg-gradient-silver text-ink hover:opacity-90 shadow-silver h-11 rounded-xl font-semibold">
               {loading ? "Please wait..." : mode === "signin" ? "Sign In" : "Create Account"}
             </Button>
-            <button type="button" onClick={() => { setMode(mode === "signin" ? "signup" : "signin"); setErrorMsg(null); }} className="block w-full text-center text-xs text-muted-foreground hover:text-gold transition-colors">
+            <button type="button" onClick={() => { setMode(mode === "signin" ? "signup" : "signin"); setErrorMsg(null); }} className="block w-full text-center text-xs text-muted-foreground hover:text-foreground transition-colors">
               {mode === "signin" ? "Need an account? Sign up" : "Have an account? Sign in"}
             </button>
           </form>
