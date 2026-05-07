@@ -124,22 +124,23 @@ function Landing() {
               </div>
               <p className="text-[10px] uppercase tracking-mono text-card-foreground/50">Accra · Ghana</p>
             </div>
-            <div className="md:col-span-3 flex flex-col justify-center gap-5 p-8 md:p-10 bg-card-foreground/[0.03] border-t md:border-t-0 md:border-l border-card-foreground/10">
-              <div className="flex items-start gap-4">
-                <div className="shrink-0 w-12 h-12 rounded-full bg-card-foreground text-ink flex items-center justify-center">
-                  <MapPin className="w-5 h-5" />
-                </div>
-                <div>
-                  <p className="text-[10px] uppercase tracking-mono text-card-foreground/50 mb-1.5">Address</p>
-                  <p className="font-display text-xl leading-snug">Next to Cafe Claire</p>
-                  <p className="text-sm text-card-foreground/70">East Legon, Accra</p>
-                </div>
-              </div>
+            <div className="md:col-span-3 relative min-h-[280px] md:min-h-[340px] bg-card-foreground/[0.03] border-t md:border-t-0 md:border-l border-card-foreground/10">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3970.4841259518953!2d-0.15305770000000002!3d5.642864800000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfdf9be46fd4f06d%3A0xcb925976bb8253b3!2sCafeClair!5e0!3m2!1sen!2sgh!4v1778157633060!5m2!1sen!2sgh"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="absolute inset-0 w-full h-full"
+                title="Map to Casa 1715 Steakhouse"
+              />
               <a
                 href="https://maps.app.goo.gl/s8cfSxQWGkpiPAiR9"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="self-start inline-flex items-center gap-2 rounded-md bg-card-foreground text-ink px-4 py-2.5 text-[10px] uppercase tracking-mono shadow-soft hover:opacity-90 transition"
+                className="absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-md bg-card-foreground text-ink px-4 py-2.5 text-[10px] uppercase tracking-mono shadow-soft hover:opacity-90 transition"
               >
                 <MapPin className="w-3.5 h-3.5" /> Get Directions
               </a>
