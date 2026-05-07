@@ -31,7 +31,7 @@ function Landing() {
           <Link to="/admin" className="hover:text-foreground transition">Sign In</Link>
         </nav>
         <Link to="/rsvp" className="shrink-0">
-          <Button size="sm" className="bg-ink text-card-foreground hover:bg-ink/90 rounded-md px-4 md:px-5 text-[10px] md:text-xs uppercase tracking-mono">
+          <Button size="sm" className="bg-gradient-silver text-ink hover:opacity-90 shadow-silver rounded-md px-4 md:px-5 text-[10px] md:text-xs uppercase tracking-mono font-semibold">
             RSVP
           </Button>
         </Link>
