@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Calendar, Clock, MapPin, ArrowUpRight, Phone, Copy, Check } from "lucide-react";
 import { toast } from "sonner";
@@ -124,8 +124,25 @@ function Landing() {
               </div>
               <p className="text-[10px] uppercase tracking-mono text-card-foreground/50">Accra · Ghana</p>
             </div>
-            <div className="md:col-span-3 flex flex-col">
-              <LocationMap />
+            <div className="md:col-span-3 flex flex-col justify-center gap-5 p-8 md:p-10 bg-card-foreground/[0.03] border-t md:border-t-0 md:border-l border-card-foreground/10">
+              <div className="flex items-start gap-4">
+                <div className="shrink-0 w-12 h-12 rounded-full bg-card-foreground text-ink flex items-center justify-center">
+                  <MapPin className="w-5 h-5" />
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase tracking-mono text-card-foreground/50 mb-1.5">Address</p>
+                  <p className="font-display text-xl leading-snug">Next to Cafe Claire</p>
+                  <p className="text-sm text-card-foreground/70">East Legon, Accra</p>
+                </div>
+              </div>
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Cafe Claire East Legon Accra")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="self-start inline-flex items-center gap-2 rounded-md bg-card-foreground text-ink px-4 py-2.5 text-[10px] uppercase tracking-mono shadow-soft hover:opacity-90 transition"
+              >
+                <MapPin className="w-3.5 h-3.5" /> Get Directions
+              </a>
             </div>
           </div>
         </div>
@@ -219,75 +236,3 @@ function DetailsStrip() {
   );
 }
 
-function LocationMap() {
-  const address = "Next to Cafe Claire, E. Legon, Accra";
-  // Approx coords for Cafe Claire, East Legon, Accra
-  const lat = 5.6354;
-  const lng = -0.1633;
-  const delta = 0.006;
-  const bbox = `${lng - delta}%2C${lat - delta}%2C${lng + delta}%2C${lat + delta}`;
-  const embedUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat}%2C${lng}`;
-  const externalUrl = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=17/${lat}/${lng}`;
-  const gmapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Cafe Claire East Legon Accra")}`;
-
-  const [loaded, setLoaded] = useState(false);
-  const [errored, setErrored] = useState(false);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    timeoutRef.current = setTimeout(() => {
-      if (!loaded) setErrored(true);
-    }, 8000);
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    };
-  }, [loaded]);
-
-  return (
-    <div className="flex flex-col h-full">
-      <div className="relative flex-1 min-h-[260px] md:min-h-[300px] bg-card-foreground/5 overflow-hidden">
-        {!errored && (
-          <iframe
-            title="Casa 1715 Steakhouse map — Next to Cafe Claire, E. Legon"
-            src={embedUrl}
-            className="absolute inset-0 w-full h-full border-0"
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            onLoad={() => setLoaded(true)}
-            onError={() => setErrored(true)}
-            style={{ opacity: loaded ? 1 : 0, transition: "opacity 300ms ease" }}
-          />
-        )}
-        {!loaded && !errored && (
-          <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-card-foreground/5 via-card-foreground/10 to-card-foreground/5 flex items-center justify-center">
-            <div className="flex flex-col items-center gap-2 text-card-foreground/50">
-              <MapPin className="w-5 h-5" />
-              <p className="text-[10px] uppercase tracking-mono">Loading map…</p>
-            </div>
-          </div>
-        )}
-        {errored && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center">
-            <div className="w-12 h-12 rounded-full bg-card-foreground text-ink flex items-center justify-center">
-              <MapPin className="w-5 h-5" />
-            </div>
-            <p className="font-display text-lg">Casa 1715 Steakhouse</p>
-            <p className="text-xs text-card-foreground/60">{address}</p>
-          </div>
-        )}
-        <a
-          href={errored ? gmapsUrl : externalUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-md bg-card-foreground text-ink px-3 py-2 text-[10px] uppercase tracking-mono shadow-soft hover:opacity-90 transition"
-        >
-          <MapPin className="w-3.5 h-3.5" /> Open in Maps
-        </a>
-      </div>
-      <div className="px-5 py-3 border-t border-card-foreground/10 text-[11px] text-card-foreground/70 flex items-center gap-2">
-        <MapPin className="w-3.5 h-3.5 shrink-0" />
-        <span>{address}</span>
-      </div>
-    </div>
-  );
-}
