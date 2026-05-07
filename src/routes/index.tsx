@@ -124,8 +124,25 @@ function Landing() {
               </div>
               <p className="text-[10px] uppercase tracking-mono text-card-foreground/50">Accra · Ghana</p>
             </div>
-            <div className="md:col-span-3 flex flex-col">
-              <LocationMap />
+            <div className="md:col-span-3 flex flex-col justify-center gap-5 p-8 md:p-10 bg-card-foreground/[0.03] border-t md:border-t-0 md:border-l border-card-foreground/10">
+              <div className="flex items-start gap-4">
+                <div className="shrink-0 w-12 h-12 rounded-full bg-card-foreground text-ink flex items-center justify-center">
+                  <MapPin className="w-5 h-5" />
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase tracking-mono text-card-foreground/50 mb-1.5">Address</p>
+                  <p className="font-display text-xl leading-snug">Next to Cafe Claire</p>
+                  <p className="text-sm text-card-foreground/70">East Legon, Accra</p>
+                </div>
+              </div>
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Cafe Claire East Legon Accra")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="self-start inline-flex items-center gap-2 rounded-md bg-card-foreground text-ink px-4 py-2.5 text-[10px] uppercase tracking-mono shadow-soft hover:opacity-90 transition"
+              >
+                <MapPin className="w-3.5 h-3.5" /> Get Directions
+              </a>
             </div>
           </div>
         </div>
