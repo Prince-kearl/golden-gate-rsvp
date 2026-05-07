@@ -25,10 +25,10 @@ function Landing() {
           <div className="w-9 h-9 rounded-md bg-gradient-silver text-ink font-display font-bold text-sm flex items-center justify-center shadow-silver">co</div>
           <span className="text-xs uppercase tracking-mono text-silver-muted">Charles Osam</span>
         </div>
-        <nav className="hidden md:flex items-center gap-8 text-xs uppercase tracking-mono text-muted-foreground">
+        <nav className="flex items-center gap-4 md:gap-8 text-[10px] md:text-xs uppercase tracking-mono text-muted-foreground">
           <a href="#event" className="hover:text-foreground transition">Event</a>
           <a href="#details" className="hover:text-foreground transition">Details</a>
-          <Link to="/admin" className="hover:text-foreground transition">Admin</Link>
+          <Link to="/admin" className="hover:text-foreground transition">Sign In</Link>
         </nav>
         <Link to="/rsvp">
           <Button size="sm" className="bg-ink text-card-foreground hover:bg-ink/90 rounded-md px-5 text-xs uppercase tracking-mono">
@@ -154,7 +154,7 @@ function Landing() {
       </section>
 
       <footer className="border-t border-border py-8 text-center text-[10px] uppercase tracking-mono text-muted-foreground">
-        © 2026 Charles Osam · <Link to="/admin" className="hover:text-foreground transition">Admin</Link>
+        © 2026 Charles Osam · <Link to="/admin" className="hover:text-foreground transition">Sign In</Link>
       </footer>
     </div>
   );
