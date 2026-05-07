@@ -154,7 +154,7 @@ function Landing() {
       </section>
 
       <footer className="border-t border-border py-8 text-center text-[10px] uppercase tracking-mono text-muted-foreground">
-        © 2026 Charles Osam · <Link to="/admin" className="hover:text-foreground transition">Admin</Link>
+        © 2026 Charles Osam · <Link to="/admin" className="hover:text-foreground transition">Sign In</Link>
       </footer>
     </div>
   );
