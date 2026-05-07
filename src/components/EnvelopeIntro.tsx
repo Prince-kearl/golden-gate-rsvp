@@ -173,7 +173,7 @@ export function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
                     className="font-display italic text-sm md:text-base mt-1"
                     style={{ color: "#5a5a62" }}
                   >
-                    Birthday Soirée
+                    Birthday Rendezvous
                   </p>
                 </div>
               </motion.div>
