@@ -35,7 +35,7 @@ export const Route = createRootRoute({
       { property: "og:title", content: "Charles Osam's Birthday Party — RSVP" },
       { property: "og:description", content: "Join us at Casa 1715 on May 16th. RSVP by May 12, 2026." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
+      
       { name: "twitter:title", content: "Charles Osam's Birthday Party — RSVP" },
       { name: "twitter:description", content: "Join us at Casa 1715 on May 16th. RSVP by May 12, 2026." },
       { property: "og:image", content: "/og-image.png" },
