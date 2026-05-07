@@ -23,7 +23,7 @@ function Landing() {
       <header className="max-w-6xl mx-auto px-4 md:px-6 lg:px-10 py-5 md:py-6 flex items-center justify-between gap-3">
         <div className="flex items-center gap-3 shrink-0">
           <div className="w-9 h-9 rounded-md bg-gradient-silver text-ink font-display font-bold text-sm flex items-center justify-center shadow-silver">co</div>
-          <span className="hidden sm:inline text-xs uppercase tracking-mono text-silver-muted whitespace-nowrap">Charles Osam</span>
+          <span className="hidden sm:inline text-xs uppercase tracking-mono text-silver-muted whitespace-nowrap">Charles Osam's Birthday Rendezvous</span>
         </div>
         <nav className="flex items-center gap-4 md:gap-8 text-[10px] md:text-xs uppercase tracking-[0.18em] md:tracking-mono text-muted-foreground whitespace-nowrap">
           <a href="#event" className="hover:text-foreground transition">Event</a>
