@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Calendar, Clock, MapPin, ArrowUpRight, Phone, Copy, Check } from "lucide-react";
 import { toast } from "sonner";
