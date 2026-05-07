@@ -41,7 +41,7 @@ function Landing() {
       <section id="event" className="max-w-6xl mx-auto px-6 lg:px-10 pt-10 lg:pt-16 pb-20 grid lg:grid-cols-12 gap-12 items-center">
         <div className="lg:col-span-6 animate-fade-up">
           <p className="text-xs uppercase tracking-mono text-silver-muted mb-6">Private Invitation · 2026</p>
-          <h1 className="text-[clamp(3.5rem,9vw,7rem)] leading-[0.95] mb-6 italic text-white" style={{ fontFamily: "'Great Vibes', cursive", fontWeight: 400 }}>
+          <h1 className="text-[6rem] leading-[0.95] mb-6 italic text-white" style={{ fontFamily: "'Great Vibes', cursive", fontWeight: 400 }}>
             <span className="block lg:inline">Charles</span> <span className="block lg:inline">Osam<span className="text-white">.</span></span>
           </h1>
           <p className="text-base text-muted-foreground max-w-md mb-10 leading-relaxed">
