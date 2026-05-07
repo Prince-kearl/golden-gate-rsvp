@@ -17,7 +17,7 @@ export const Route = createFileRoute("/")({
 
 function Landing() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen text-foreground" style={{ background: "radial-gradient(ellipse at top, oklch(0.22 0.01 260) 0%, oklch(0.13 0.003 60) 60%, oklch(0.10 0.003 60) 100%)" }}>
       <EnvelopeIntro />
       {/* Nav */}
       <header className="max-w-6xl mx-auto px-6 lg:px-10 py-6 flex items-center justify-between">
