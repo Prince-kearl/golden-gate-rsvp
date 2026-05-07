@@ -125,16 +125,22 @@ function Landing() {
               <p className="text-[10px] uppercase tracking-mono text-card-foreground/50">Accra · Ghana</p>
             </div>
             <div className="md:col-span-3 min-h-[280px] md:min-h-[340px] relative bg-card-foreground/5">
-              <div className="absolute inset-0 [background-image:linear-gradient(var(--color-card-foreground)/0.08_1px,transparent_1px),linear-gradient(90deg,var(--color-card-foreground)/0.08_1px,transparent_1px)] [background-size:32px_32px]" />
-              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-card-foreground text-ink flex items-center justify-center">
-                  <MapPin className="w-5 h-5" />
-                </div>
-                <div className="rounded-md bg-card-foreground text-ink px-4 py-2 text-center">
-                  <p className="font-display text-base">Casa 1715 Steakhouse</p>
-                  <p className="text-[10px] uppercase tracking-mono opacity-70">Next to Cafe Claire · E. Legon</p>
-                </div>
-              </div>
+              <iframe
+                title="Casa 1715 Steakhouse map"
+                src="https://www.google.com/maps?q=Casa+1715+Steakhouse+East+Legon+Accra&output=embed"
+                className="absolute inset-0 w-full h-full border-0 grayscale-[0.3] contrast-110"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=Casa+1715+Steakhouse+East+Legon+Accra"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-md bg-card-foreground text-ink px-3 py-2 text-[10px] uppercase tracking-mono shadow-soft hover:opacity-90 transition"
+              >
+                <MapPin className="w-3.5 h-3.5" /> Open in Maps
+              </a>
             </div>
           </div>
         </div>
