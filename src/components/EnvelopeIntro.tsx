@@ -5,9 +5,22 @@ interface EnvelopeIntroProps {
   onComplete?: () => void;
 }
 
+const STORAGE_KEY = "envelope-opened";
+
 export function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
   const [phase, setPhase] = useState<"idle" | "breaking" | "opening" | "done">("idle");
-  const [hidden, setHidden] = useState(false);
+  const [hidden, setHidden] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.sessionStorage.getItem(STORAGE_KEY) === "1";
+  });
+
+  const finish = () => {
+    if (typeof window !== "undefined") {
+      window.sessionStorage.setItem(STORAGE_KEY, "1");
+    }
+    setHidden(true);
+    onComplete?.();
+  };
 
   useEffect(() => {
     if (phase === "breaking") {
@@ -19,13 +32,10 @@ export function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
       return () => clearTimeout(t);
     }
     if (phase === "done") {
-      const t = setTimeout(() => {
-        setHidden(true);
-        onComplete?.();
-      }, 700);
+      const t = setTimeout(finish, 700);
       return () => clearTimeout(t);
     }
-  }, [phase, onComplete]);
+  }, [phase]);
 
   const handleOpen = () => {
     if (phase === "idle") setPhase("breaking");
@@ -57,10 +67,7 @@ export function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
 
           {/* Skip */}
           <button
-            onClick={() => {
-              setHidden(true);
-              onComplete?.();
-            }}
+            onClick={finish}
             className="absolute top-6 right-6 text-[10px] uppercase tracking-[0.32em] text-white/50 hover:text-white/90 transition z-10"
           >
             Skip
