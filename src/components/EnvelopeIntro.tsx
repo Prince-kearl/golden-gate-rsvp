@@ -67,10 +67,7 @@ export function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
 
           {/* Skip */}
           <button
-            onClick={() => {
-              setHidden(true);
-              onComplete?.();
-            }}
+            onClick={finish}
             className="absolute top-6 right-6 text-[10px] uppercase tracking-[0.32em] text-white/50 hover:text-white/90 transition z-10"
           >
             Skip
