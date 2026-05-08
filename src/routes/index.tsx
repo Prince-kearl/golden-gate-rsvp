@@ -47,11 +47,14 @@ function Landing() {
           <p className="font-display italic text-2xl md:text-3xl text-silver-muted mb-4" style={{ fontFamily: "'Great Vibes', cursive" }}>
             Birthday Rendezvous
           </p>
-          <p className="text-xs uppercase tracking-mono text-silver-muted mb-6">
+          <p className="text-base text-muted-foreground max-w-md mb-6 leading-relaxed">
+            An elegant evening of celebration. Join us for a night to remember at Casa 1715.
+          </p>
+          <p className="text-xs uppercase tracking-mono text-silver-muted mb-1">
             RSVP: <span className="text-white/90">Lady Julia Konadu Osam</span>
           </p>
-          <p className="text-base text-muted-foreground max-w-md mb-10 leading-relaxed">
-            An elegant evening of celebration. Join us for a night to remember at Casa 1715.
+          <p className="text-xs uppercase tracking-mono text-silver-muted mb-10">
+            <a href="tel:+233539456478" className="text-white/90 hover:text-white transition">+233 539 456 478</a>
           </p>
           <div className="flex items-center gap-4">
             <Link to="/rsvp">
