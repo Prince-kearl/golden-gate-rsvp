@@ -44,8 +44,11 @@ function Landing() {
           <h1 className="text-[6rem] leading-[0.95] mb-4 italic text-white" style={{ fontFamily: "'Great Vibes', cursive", fontWeight: 400 }}>
             <span className="block lg:inline">Charles</span> <span className="block lg:inline">Osam<span className="text-white">'s</span></span>
           </h1>
-          <p className="font-display italic text-2xl md:text-3xl text-silver-muted mb-6" style={{ fontFamily: "'Great Vibes', cursive" }}>
+          <p className="font-display italic text-2xl md:text-3xl text-silver-muted mb-4" style={{ fontFamily: "'Great Vibes', cursive" }}>
             Birthday Rendezvous
+          </p>
+          <p className="text-xs uppercase tracking-mono text-silver-muted mb-6">
+            RSVP: <span className="text-white/90">Lady Julia Konadu Osam</span>
           </p>
           <p className="text-base text-muted-foreground max-w-md mb-10 leading-relaxed">
             An elegant evening of celebration. Join us for a night to remember at Casa 1715.
