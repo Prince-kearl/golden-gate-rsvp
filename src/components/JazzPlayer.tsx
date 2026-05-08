@@ -59,7 +59,7 @@ export function JazzPlayer() {
 
   if (!ready) return null;
 
-  const src = `https://www.youtube.com/embed/${VIDEO_ID}?enablejsapi=1&autoplay=1&mute=1&loop=1&playlist=${VIDEO_ID}&controls=0&playsinline=1&modestbranding=1`;
+  const src = `https://www.youtube.com/embed/${VIDEO_ID}?enablejsapi=1&autoplay=1&loop=1&playlist=${VIDEO_ID}&controls=0&playsinline=1&modestbranding=1`;
 
   return (
     <>
