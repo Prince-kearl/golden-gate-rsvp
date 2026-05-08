@@ -6,7 +6,7 @@ const VIDEO_ID = "JkqtmZGdOc8";
 
 export function JazzPlayer() {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
-  const [playing, setPlaying] = useState(false);
+  const [playing, setPlaying] = useState(true);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
