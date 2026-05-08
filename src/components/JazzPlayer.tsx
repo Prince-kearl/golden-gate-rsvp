@@ -68,7 +68,11 @@ export function JazzPlayer() {
         src={src}
         title="Asake - Great Guy"
         allow="autoplay; encrypted-media"
-        style={{ position: "fixed", width: 1, height: 1, opacity: 0, pointerEvents: "none", border: 0, left: -9999, top: -9999 }}
+        onLoad={() => {
+          post("playVideo");
+          setPlaying(true);
+        }}
+        style={{ position: "fixed", width: 1, height: 1, opacity: 0.01, pointerEvents: "none", border: 0, bottom: 0, right: 0 }}
       />
       <button
         type="button"
