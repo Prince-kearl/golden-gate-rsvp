@@ -141,7 +141,7 @@ function RsvpPage() {
               <Label htmlFor="phone" className="text-xs uppercase tracking-widest text-muted-foreground">Phone Number</Label>
               <div className="relative">
                 <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input id="phone" type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="0539 456 478" required className="pl-10 h-12 bg-surface-elevated border-border/60 rounded-xl focus-visible:ring-gold/50" />
+                <Input id="phone" type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="Your phone number" required className="pl-10 h-12 bg-surface-elevated border-border/60 rounded-xl focus-visible:ring-gold/50" />
               </div>
             </div>
 
