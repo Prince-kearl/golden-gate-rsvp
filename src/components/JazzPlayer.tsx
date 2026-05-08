@@ -6,7 +6,7 @@ const VIDEO_ID = "JkqtmZGdOc8";
 
 export function JazzPlayer() {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
-  const [playing, setPlaying] = useState(true);
+  const [playing, setPlaying] = useState(false);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -38,17 +38,10 @@ export function JazzPlayer() {
     window.addEventListener("pointerdown", onInteract, { once: true });
     window.addEventListener("keydown", onInteract, { once: true });
     window.addEventListener("touchstart", onInteract, { once: true });
-    const onVisible = () => {
-      if (document.visibilityState === "visible") {
-        post("playVideo");
-      }
-    };
-    document.addEventListener("visibilitychange", onVisible);
     return () => {
       window.removeEventListener("pointerdown", onInteract);
       window.removeEventListener("keydown", onInteract);
       window.removeEventListener("touchstart", onInteract);
-      document.removeEventListener("visibilitychange", onVisible);
     };
   }, [ready]);
 
