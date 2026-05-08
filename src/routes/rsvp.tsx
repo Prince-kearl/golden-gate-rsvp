@@ -20,7 +20,7 @@ export const Route = createFileRoute("/rsvp")({
   component: RsvpPage,
 });
 
-const RSVP_DEADLINE = new Date("2026-05-12T23:59:59");
+const RSVP_DEADLINE = new Date("2026-05-14T23:59:59");
 const schema = z.object({
   name: z.string().trim().min(2, "Please enter your full name").max(100),
   phone: z.string().trim().min(7, "Please enter a valid phone number").max(20).regex(/^[+\d\s()-]+$/, "Phone number contains invalid characters"),
@@ -125,7 +125,7 @@ function RsvpPage() {
               <Clock className="w-6 h-6" />
             </div>
             <h3 className="font-display text-2xl text-gold mb-2">RSVP is now closed</h3>
-            <p className="text-sm text-muted-foreground">The deadline of May 12, 2026 has passed. Please contact the host directly.</p>
+            <p className="text-sm text-muted-foreground">The deadline of May 14, 2026 has passed. Please contact the host directly.</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="rounded-3xl bg-gradient-surface ring-border p-6 md:p-8 space-y-6 shadow-card animate-fade-up delay-100">
@@ -180,7 +180,7 @@ function RsvpPage() {
             <Button type="submit" disabled={loading} size="lg" className="w-full bg-card-foreground text-ink hover:bg-card-foreground/90 h-12 rounded-xl font-medium tracking-wide transition-all hover:scale-[1.01]">
               {loading ? "Submitting..." : "Confirm Attendance"}
             </Button>
-            <p className="text-center text-[11px] text-muted-foreground">RSVP by May 12, 2026 · Invite admits 1 only</p>
+            <p className="text-center text-[11px] text-muted-foreground">RSVP by May 14, 2026 · Invite admits 1 only</p>
           </form>
         )}
       </main>
