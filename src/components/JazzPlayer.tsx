@@ -3,35 +3,139 @@ import { Music, VolumeX } from "lucide-react";
 
 // Asake — Great Guy (YouTube)
 const VIDEO_ID = "JkqtmZGdOc8";
+const DEFAULT_VOLUME = 35;
+
+type YouTubePlayer = {
+  destroy: () => void;
+  mute: () => void;
+  unMute: () => void;
+  playVideo: () => void;
+  pauseVideo: () => void;
+  setVolume: (volume: number) => void;
+};
+
+declare global {
+  interface Window {
+    YT?: {
+      Player: new (
+        element: HTMLElement,
+        options: {
+          videoId: string;
+          playerVars?: Record<string, number>;
+          events?: {
+            onReady?: (event: { target: YouTubePlayer }) => void;
+            onStateChange?: (event: { data: number; target: YouTubePlayer }) => void;
+          };
+        }
+      ) => YouTubePlayer;
+    };
+    onYouTubeIframeAPIReady?: () => void;
+  }
+}
+
+let youtubeApiPromise: Promise<typeof window.YT> | null = null;
+
+function loadYouTubeAPI() {
+  if (typeof window === "undefined") return Promise.resolve(undefined);
+  if (window.YT?.Player) return Promise.resolve(window.YT);
+
+  if (!youtubeApiPromise) {
+    youtubeApiPromise = new Promise((resolve) => {
+      const previousReady = window.onYouTubeIframeAPIReady;
+
+      window.onYouTubeIframeAPIReady = () => {
+        previousReady?.();
+        resolve(window.YT);
+      };
+
+      const existingScript = document.querySelector<HTMLScriptElement>(
+        'script[src="https://www.youtube.com/iframe_api"]'
+      );
+
+      if (!existingScript) {
+        const script = document.createElement("script");
+        script.src = "https://www.youtube.com/iframe_api";
+        document.head.appendChild(script);
+      }
+    });
+  }
+
+  return youtubeApiPromise;
+}
 
 export function JazzPlayer() {
-  const iframeRef = useRef<HTMLIFrameElement | null>(null);
-  const [playing, setPlaying] = useState(true);
+  const playerHostRef = useRef<HTMLDivElement | null>(null);
+  const playerRef = useRef<YouTubePlayer | null>(null);
+  const [playing, setPlaying] = useState(false);
   const [ready, setReady] = useState(false);
   const [audioUnlocked, setAudioUnlocked] = useState(false);
 
   useEffect(() => {
-    setReady(true);
+    let cancelled = false;
+
+    loadYouTubeAPI().then((YT) => {
+      if (cancelled || !YT?.Player || !playerHostRef.current) return;
+
+      playerRef.current = new YT.Player(playerHostRef.current, {
+        videoId: VIDEO_ID,
+        playerVars: {
+          autoplay: 1,
+          controls: 0,
+          loop: 1,
+          playlist: VIDEO_ID,
+          playsinline: 1,
+          modestbranding: 1,
+          rel: 0,
+        },
+        events: {
+          onReady: ({ target }) => {
+            if (cancelled) return;
+
+            target.mute();
+            target.setVolume(DEFAULT_VOLUME);
+            target.playVideo();
+
+            setPlaying(true);
+            setReady(true);
+          },
+          onStateChange: ({ data, target }) => {
+            if (data === 0) {
+              target.playVideo();
+              return;
+            }
+
+            if (data === 1 || data === 3 || data === 5) {
+              setPlaying(true);
+            }
+
+            if (data === 2) {
+              setPlaying(false);
+            }
+          },
+        },
+      });
+    });
+
+    return () => {
+      cancelled = true;
+      playerRef.current?.destroy();
+      playerRef.current = null;
+    };
   }, []);
 
-  const post = (func: string, args: unknown[] = []) => {
-    iframeRef.current?.contentWindow?.postMessage(
-      JSON.stringify({ event: "command", func, args }),
-      "*"
-    );
-  };
-
   const activateAudio = () => {
-    post("unMute");
-    post("setVolume", [35]);
-    post("playVideo");
+    if (!playerRef.current) return;
+
+    playerRef.current.unMute();
+    playerRef.current.setVolume(DEFAULT_VOLUME);
+    playerRef.current.playVideo();
     setAudioUnlocked(true);
     setPlaying(true);
   };
 
-  // Try to autoplay (muted, since browsers require it) then unmute on first interaction.
   useEffect(() => {
     if (!ready) return;
+
     const onInteract = () => {
       activateAudio();
       window.removeEventListener("pointerdown", onInteract);
@@ -55,7 +159,7 @@ export function JazzPlayer() {
     }
 
     if (playing) {
-      post("pauseVideo");
+      playerRef.current?.pauseVideo();
       setPlaying(false);
     } else {
       activateAudio();
@@ -64,15 +168,11 @@ export function JazzPlayer() {
 
   if (!ready) return null;
 
-  const src = `https://www.youtube.com/embed/${VIDEO_ID}?enablejsapi=1&autoplay=1&mute=1&loop=1&playlist=${VIDEO_ID}&controls=0&playsinline=1&modestbranding=1`;
-
   return (
     <>
-      <iframe
-        ref={iframeRef}
-        src={src}
-        title="Asake - Great Guy"
-        allow="autoplay; encrypted-media"
+      <div
+        ref={playerHostRef}
+        aria-hidden="true"
         style={{ position: "fixed", width: 1, height: 1, opacity: 0, pointerEvents: "none", border: 0, left: -9999, top: -9999 }}
       />
       <button
