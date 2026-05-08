@@ -38,10 +38,17 @@ export function JazzPlayer() {
     window.addEventListener("pointerdown", onInteract, { once: true });
     window.addEventListener("keydown", onInteract, { once: true });
     window.addEventListener("touchstart", onInteract, { once: true });
+    const onVisible = () => {
+      if (document.visibilityState === "visible") {
+        post("playVideo");
+      }
+    };
+    document.addEventListener("visibilitychange", onVisible);
     return () => {
       window.removeEventListener("pointerdown", onInteract);
       window.removeEventListener("keydown", onInteract);
       window.removeEventListener("touchstart", onInteract);
+      document.removeEventListener("visibilitychange", onVisible);
     };
   }, [ready]);
 
