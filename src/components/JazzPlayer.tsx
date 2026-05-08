@@ -8,6 +8,7 @@ export function JazzPlayer() {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const [playing, setPlaying] = useState(true);
   const [ready, setReady] = useState(false);
+  const [audioUnlocked, setAudioUnlocked] = useState(false);
 
   useEffect(() => {
     setReady(true);
@@ -20,17 +21,19 @@ export function JazzPlayer() {
     );
   };
 
+  const activateAudio = () => {
+    post("unMute");
+    post("setVolume", [35]);
+    post("playVideo");
+    setAudioUnlocked(true);
+    setPlaying(true);
+  };
+
   // Try to autoplay (muted, since browsers require it) then unmute on first interaction.
   useEffect(() => {
     if (!ready) return;
-    const start = () => {
-      post("unMute");
-      post("setVolume", [35]);
-      post("playVideo");
-      setPlaying(true);
-    };
     const onInteract = () => {
-      start();
+      activateAudio();
       window.removeEventListener("pointerdown", onInteract);
       window.removeEventListener("keydown", onInteract);
       window.removeEventListener("touchstart", onInteract);
@@ -46,14 +49,16 @@ export function JazzPlayer() {
   }, [ready]);
 
   const toggle = () => {
+    if (!audioUnlocked) {
+      activateAudio();
+      return;
+    }
+
     if (playing) {
       post("pauseVideo");
       setPlaying(false);
     } else {
-      post("unMute");
-      post("setVolume", [35]);
-      post("playVideo");
-      setPlaying(true);
+      activateAudio();
     }
   };
 
