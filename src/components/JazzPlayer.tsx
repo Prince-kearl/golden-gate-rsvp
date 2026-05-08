@@ -26,7 +26,7 @@ declare global {
             onReady?: (event: { target: YouTubePlayer }) => void;
             onStateChange?: (event: { data: number; target: YouTubePlayer }) => void;
           };
-        }
+        },
       ) => YouTubePlayer;
     };
     onYouTubeIframeAPIReady?: () => void;
@@ -49,7 +49,7 @@ function loadYouTubeAPI() {
       };
 
       const existingScript = document.querySelector<HTMLScriptElement>(
-        'script[src="https://www.youtube.com/iframe_api"]'
+        'script[src="https://www.youtube.com/iframe_api"]',
       );
 
       if (!existingScript) {
@@ -171,7 +171,16 @@ export function JazzPlayer() {
       <div
         ref={playerHostRef}
         aria-hidden="true"
-        style={{ position: "fixed", width: 1, height: 1, opacity: 0, pointerEvents: "none", border: 0, left: -9999, top: -9999 }}
+        style={{
+          position: "fixed",
+          width: 1,
+          height: 1,
+          opacity: 0,
+          pointerEvents: "none",
+          border: 0,
+          left: -9999,
+          top: -9999,
+        }}
       />
       {ready ? (
         <button
