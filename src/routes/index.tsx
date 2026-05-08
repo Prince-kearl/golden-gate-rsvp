@@ -9,7 +9,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Charles Osam's Birthday Rendezvous — RSVP" },
-      { name: "description", content: "An elegant evening at Casa 1715. RSVP by May 12, 2026." },
+      { name: "description", content: "An elegant evening at Casa 1715. RSVP by May 14, 2026." },
     ],
   }),
   component: Landing,
@@ -157,7 +157,7 @@ function Landing() {
         {/* CTA */}
         <div className="mt-8 rounded-2xl bg-ink text-card-foreground p-8 md:p-12 flex flex-col items-center text-center gap-6">
           <div>
-            <p className="text-[10px] uppercase tracking-mono text-card-foreground/60 mb-3">RSVP by May 12, 2026</p>
+            <p className="text-[10px] uppercase tracking-mono text-card-foreground/60 mb-3">RSVP by May 14, 2026</p>
             <h2 className="font-display text-3xl md:text-4xl mb-2">Ready to celebrate?</h2>
             <p className="text-sm text-card-foreground/70">Invite admits 1 only. Confirm your attendance now.</p>
           </div>
